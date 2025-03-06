@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
-import xss from 'xss'; // Add xss import
+import xss from 'xss'; 
 
 const prisma = new PrismaClient();
 
@@ -46,8 +46,8 @@ export function validateCategory(categoryToValidate: unknown) {
 export async function createCategory(categoryToCreate: CategoryToCreate): Promise<Category> {
   const createdCategory = await prisma.categories.create({
     data: {
-      title: xss(categoryToCreate.title), // Sanitize input
-      slug: xss(categoryToCreate.title.toLowerCase().replace(' ', '-')), // Sanitize input
+      title: xss(categoryToCreate.title), 
+      slug: xss(categoryToCreate.title.toLowerCase().replace(' ', '-')), 
     },
   });
 
@@ -59,15 +59,15 @@ export async function deleteCategory(slug: string): Promise<Category | null> {
     where: { slug },
   });
   
-  return deletedCategory; // Category was found and deleted
+  return deletedCategory; 
 }
 
 export async function updateCategory(slug: string, data: CategoryToCreate): Promise<Category> {
   const updatedCategory = await prisma.categories.update({
     where: { slug },
     data: {
-      title: xss(data.title), // Sanitize input
-      slug: xss(data.title.toLowerCase().replace(' ', '-')), // Sanitize input
+      title: xss(data.title), 
+      slug: xss(data.title.toLowerCase().replace(' ', '-')), 
     },
   });
 
