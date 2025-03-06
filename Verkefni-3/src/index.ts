@@ -84,7 +84,7 @@ app.delete('/categories/:slug', async (c) => {
   if (!deleted) {
     return c.json({ message: 'not found' }, 404);
   }
-  return c.json({ message: 'deleted' }, 200);
+  return c.json({ message: 'category deleted' }, 200);
 
 })
 

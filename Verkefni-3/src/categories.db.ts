@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
+
 const CategorySchema = z.object({
   id: z.number(),
   title: z
@@ -20,30 +22,7 @@ const CategoryToCreateSchema = z.object({
 type Category = z.infer<typeof CategorySchema>;
 type CategoryToCreate = z.infer<typeof CategoryToCreateSchema>;
 
-const mockCategories: Array<Category> = [
-  {
-    id: 1,
-    slug: 'html',
-    title: 'HTML',
-  },
-  {
-    id: 2,
-    slug: 'css',
-    title: 'CSS',
-  },
-  {
-    id: 3,
-    slug: 'js',
-    title: 'JavaScript',
-  },
-];
-
-const prisma = new PrismaClient();
-
-export async function getCategories(
-  limit: number = 10,
-  offset: number = 0,
-): Promise<Array<Category>> {
+export async function getCategories(): Promise<Array<Category>> {
   const categories = await prisma.categories.findMany();
   console.log('categories :>> ', categories);
   return categories;
@@ -75,12 +54,11 @@ export async function createCategory(categoryToCreate: CategoryToCreate): Promis
 }
 
 export async function deleteCategory(slug: string): Promise<Category | null> {
-    const deletedCategory = await prisma.categories.delete({
-      where: { slug },
-    });
-    
-    return deletedCategory; // Category was found and deleted
-
+  const deletedCategory = await prisma.categories.delete({
+    where: { slug },
+  });
+  
+  return deletedCategory; // Category was found and deleted
 }
 
 export async function updateCategory(slug: string, data: CategoryToCreate): Promise<Category> {
