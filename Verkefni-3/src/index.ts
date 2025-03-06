@@ -2,17 +2,16 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { createCategory, getCategories, getCategory, validateCategory, deleteCategory, updateCategory } from './categories.db.js'
 import { cors } from 'hono/cors'
+import xss from 'xss' 
 
 const app = new Hono()
 
 app.use('/*', cors())
 
 app.get('/', (c) => {
-
   const data =  {
     hello: 'hono'
   }
-
   return c.json(data)
 })
 
@@ -36,9 +35,10 @@ app.get('/categories/:slug', async (c) => {
 })
 
 app.post('/categories', async (c) => {
-  let categoryToCreate: unknown;
+  let categoryToCreate: any;
   try {
     categoryToCreate = await c.req.json();
+    categoryToCreate.title = xss(categoryToCreate.title); 
     console.log(categoryToCreate);
   } catch (e) {
     return c.json({ error: 'invalid json' }, 400)
@@ -57,9 +57,10 @@ app.post('/categories', async (c) => {
 
 app.patch('/categories/:slug', async (c) => {
   const slug = c.req.param('slug')
-  let categoryToUpdate: unknown;
+  let categoryToUpdate: any;
   try {
     categoryToUpdate = await c.req.json();
+    categoryToUpdate.title = xss(categoryToUpdate.title); 
     console.log(categoryToUpdate);
   } catch (e) {
     return c.json({ error: 'invalid json' }, 400)
@@ -78,7 +79,6 @@ app.patch('/categories/:slug', async (c) => {
 
 app.delete('/categories/:slug', async (c) => {
   const slug = c.req.param('slug')
-
 
   const deleted = await deleteCategory(slug);
   if (!deleted) {
