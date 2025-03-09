@@ -17,4 +17,15 @@ model Categories {
   id    Int    @id @default(autoincrement())
   title String @unique
   slug  String @unique
+
+  questions Questions[] @relation("CategoryQuestions")
+}
+
+model Questions {
+  id         Int        @id @default(autoincrement())
+  question   String
+  answer     String
+  slug       String     @unique
+  categorySlug String
+  category   Categories @relation(fields: [categorySlug], references: [slug], name: "CategoryQuestions")
 }

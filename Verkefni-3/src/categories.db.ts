@@ -1,8 +1,12 @@
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import prisma from './libs/prisma.js';
 import xss from 'xss'; 
 
-const prisma = new PrismaClient();
+function sum(a: number, b: number): number {
+  return a + b;
+}
+
+export { sum };
 
 const CategorySchema = z.object({
   id: z.number(),

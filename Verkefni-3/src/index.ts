@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { createCategory, getCategories, getCategory, validateCategory, deleteCategory, updateCategory } from './categories.db.js'
+import { getQuestions, getQuestion, validateQuestion, createQuestion, deleteQuestion, updateQuestion, getQuestionsByCategory } from './questions.db.js'
 import { cors } from 'hono/cors'
 
 const app = new Hono()
@@ -83,6 +84,85 @@ app.delete('/categories/:slug', async (c) => {
   }
   return c.json({ message: 'category deleted' }, 200);
 
+})
+
+//questions 
+
+app.get('/questions', async (c) => {
+  const questions = await getQuestions();
+  return c.json(questions)
+})
+
+app.get('/questions/:slug', async (c) => {
+  const slug = c.req.param('slug')
+
+  const question = await getQuestion(slug)
+
+  if (!question) {
+    return c.json({ message: 'not found' }, 404)
+  }
+  console.log(question);
+  return c.json(question);
+})
+
+app.post('/questions', async (c) => {
+  let questionToCreate: unknown;
+  try {
+    questionToCreate = await c.req.json();
+    console.log(questionToCreate);
+  } catch (e) {
+    return c.json({ error: 'invalid json' }, 400)
+  }
+
+  const validQuestion = validateQuestion(questionToCreate)
+
+  if (!validQuestion.success) {
+    return c.json({ error: 'invalid data', errors: validQuestion.error.flatten() }, 400)
+  }
+
+  const createdQuestion = await createQuestion(validQuestion.data)
+
+  return c.json(createdQuestion, 201)
+})
+
+app.patch('/questions/:slug', async (c) => {
+  const slug = c.req.param('slug')
+  let questionToUpdate: unknown;
+  try {
+    questionToUpdate = await c.req.json();
+    console.log(questionToUpdate);
+  } catch (e) {
+    return c.json({ error: 'invalid json' }, 400)
+  }
+
+  const validQuestion = validateQuestion(questionToUpdate)
+
+  if (!validQuestion.success) {
+    return c.json({ error: 'invalid data', errors: validQuestion.error.flatten() }, 400)
+  }
+
+  const updatedQuestion = await updateQuestion(slug, validQuestion.data);
+
+  return c.json(updatedQuestion, 200);
+})
+
+app.delete('/questions/:slug', async (c) => {
+  const slug = c.req.param('slug')
+
+  const deleted = await deleteQuestion(slug);
+  if (!deleted) {
+    return c.json({ message: 'not found' }, 404);
+  }
+  return c.json({ message: 'question deleted' }, 200);
+
+})
+
+app.get('/categories/:slug/questions', async (c) => {
+  const slug = c.req.param('slug');
+
+  const questions = await getQuestionsByCategory(slug);
+
+  return c.json(questions);
 })
 
 serve({
