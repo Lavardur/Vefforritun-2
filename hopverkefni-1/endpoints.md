@@ -1,8 +1,8 @@
 API Endpoints
 
-- [ ] **User Registration and Login**
-    - [ ] POST /register: Register a new user.
-    - [ ] POST /login: Authenticate a user and return a JWT token.
+- [x] **User Registration and Login**
+    - [x] POST /register: Register a new user.
+    - [x] POST /login: Authenticate a user and return a JWT token.
 
 - [ ] **Posts**
     - [ ] POST /posts: Create a new post.
@@ -36,7 +36,7 @@ API Endpoints
 - [ ] **Admin**
     - [ ] GET /admin/users: View all users.
     - [ ] PUT /admin/users/:id: Update user details.
-    - [ ] DELETE /admin/users/:id: Delete a user.
+    - [x] DELETE /admin/users/:id: Delete a user.
     - [ ] GET /admin/posts: View all posts.
     - [ ] PUT /admin/posts/:id: Update any post.
     - [ ] DELETE /admin/posts/:id: Delete any post.

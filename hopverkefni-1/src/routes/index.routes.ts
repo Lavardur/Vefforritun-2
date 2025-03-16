@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { register, login } from '../controllers/auth.controller.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 import postRouter from './post.routes.js';
+import userRouter from './user.routes.js';
 
 const router = new Hono();
 
@@ -17,6 +18,9 @@ router.get('/protected', authMiddleware, (c) => {
 
 // Post Routes
 router.route('/', postRouter);
+
+// User Routes
+router.route('/', userRouter);
 
 // Root Route
 router.get('/', (c) => {
