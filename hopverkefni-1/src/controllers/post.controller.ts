@@ -10,12 +10,12 @@ export const createPost = async (c: Context) => {
       title,
       content,
       authorId: user.id,
-      categories: {
+      categories: categoryIds ? {
         connect: categoryIds.map((id: number) => ({ id })),
-      },
-      tags: {
+      } : undefined,
+      tags: tagIds ? {
         connect: tagIds.map((id: number) => ({ id })),
-      },
+      } : undefined,
     },
   });
 
