@@ -17,12 +17,12 @@ API Endpoints
     - [x] PUT /comments/:commentId: Update a comment by ID.
     - [x] DELETE /comments/:commentId: Delete a comment by ID.
 
-- [ ] **Categories**
-    - [ ] POST /categories: Create a new category.
-    - [ ] GET /categories: Get a list of all categories.
-    - [ ] GET /categories/:id: Get a single category by ID.
-    - [ ] PUT /categories/:id: Update a category by ID.
-    - [ ] DELETE /categories/:id: Delete a category by ID.
+- [x] **Categories**
+    - [x] POST /categories: Create a new category.
+    - [x] GET /categories: Get a list of all categories.
+    - [x] GET /categories/:id: Get a single category by ID.
+    - [x] PUT /categories/:id: Update a category by ID.
+    - [x] DELETE /categories/:id: Delete a category by ID.
 
 - [ ] **Tags**
     - [ ] POST /tags: Create a new tag.
