@@ -4,6 +4,8 @@ import postRouter from './post.routes.js';
 import userRouter from './user.routes.js';
 import commentRouter from './comment.routes.js';
 import categoryRouter from './category.routes.js';
+import tagRouter from './tag.routes.js';
+import likeRouter from './like.routes.js';
 
 const router = new Hono();
 
@@ -22,6 +24,12 @@ router.route('/', commentRouter);
 
 // Category Routes
 router.route('/', categoryRouter);
+
+// Tag Routes
+router.route('/', tagRouter);
+
+// Like Routes
+router.route('/', likeRouter);
 
 // Root Route
 router.get('/', (c) => {
