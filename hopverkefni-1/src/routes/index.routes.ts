@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import { register, login } from '../controllers/auth.controller.js';
-import { authMiddleware } from '../middleware/auth.middleware.js';
 import postRouter from './post.routes.js';
 import userRouter from './user.routes.js';
+import commentRouter from './comment.routes.js';
 
 const router = new Hono();
 
@@ -10,17 +10,14 @@ const router = new Hono();
 router.post('/register', register);
 router.post('/login', login);
 
-// Protected Route
-router.get('/protected', authMiddleware, (c) => {
-  const user = c.req.header('user');
-  return c.json({ message: 'Protected route', user });
-});
-
 // Post Routes
 router.route('/', postRouter);
 
 // User Routes
 router.route('/', userRouter);
+
+// Comment Routes
+router.route('/', commentRouter);
 
 // Root Route
 router.get('/', (c) => {

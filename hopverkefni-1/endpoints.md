@@ -11,9 +11,11 @@ API Endpoints
     - [x] PUT /posts/:id: Update a post by ID.
     - [x] DELETE /posts/:id: Delete a post by ID.
 
-- [ ] **Comments**
-    - [ ] POST /posts/:postId/comments: Add a comment to a post.
-    - [ ] GET /posts/:postId/comments: Get all comments for a post.
+- [x] **Comments**
+    - [x] POST /posts/:postId/comments: Add a comment to a post.
+    - [x] GET /posts/:postId/comments: Get all comments for a post.
+    - [x] PUT /comments/:commentId: Update a comment by ID.
+    - [x] DELETE /comments/:commentId: Delete a comment by ID.
 
 - [ ] **Categories**
     - [ ] POST /categories: Create a new category.
