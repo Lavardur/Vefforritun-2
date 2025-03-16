@@ -39,14 +39,11 @@ API Endpoints
     - [ ] GET /admin/users: View all users.
     - [ ] PUT /admin/users/:id: Update user details.
     - [x] DELETE /admin/users/:id: Delete a user.
-    - [ ] GET /admin/posts: View all posts.
     - [ ] PUT /admin/posts/:id: Update any post.
     - [ ] DELETE /admin/posts/:id: Delete any post.
     - [ ] GET /admin/comments: View all comments.
     - [ ] DELETE /admin/comments/:id: Delete any comment.
-    - [ ] POST /admin/categories: Create a new category.
-    - [ ] PUT /admin/categories/:id: Update a category.
-    - [ ] DELETE /admin/categories/:id: Delete a category.
-    - [ ] POST /admin/tags: Create a new tag.
-    - [ ] PUT /admin/tags/:id: Update a tag.
-    - [ ] DELETE /admin/tags/:id: Delete a tag.
+    - [ ] PUT /admin/categories/:id: Update any category.
+    - [ ] DELETE /admin/categories/:id: Delete any category.
+    - [ ] PUT /admin/tags/:id: Update any tag.
+    - [ ] DELETE /admin/tags/:id: Delete any tag.
