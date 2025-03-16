@@ -24,16 +24,16 @@ API Endpoints
     - [x] PUT /categories/:id: Update a category by ID.
     - [x] DELETE /categories/:id: Delete a category by ID.
 
-- [ ] **Tags**
-    - [ ] POST /tags: Create a new tag.
-    - [ ] GET /tags: Get a list of all tags.
-    - [ ] GET /tags/:id: Get a single tag by ID.
-    - [ ] PUT /tags/:id: Update a tag by ID.
-    - [ ] DELETE /tags/:id: Delete a tag by ID.
+- [x] **Tags**
+    - [x] POST /tags: Create a new tag.
+    - [x] GET /tags: Get a list of all tags.
+    - [x] GET /tags/:id: Get a single tag by ID.
+    - [x] PUT /tags/:id: Update a tag by ID.
+    - [x] DELETE /tags/:id: Delete a tag by ID.
 
-- [ ] **Likes**
-    - [ ] POST /posts/:postId/like: Like a post.
-    - [ ] DELETE /posts/:postId/like: Unlike a post.
+- [x] **Likes**
+    - [x] POST /posts/:postId/like: Like a post.
+    - [x] DELETE /posts/:postId/like: Unlike a post.
 
 - [ ] **Admin**
     - [ ] GET /admin/users: View all users.
