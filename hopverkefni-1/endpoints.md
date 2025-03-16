@@ -35,15 +35,15 @@ API Endpoints
     - [x] POST /posts/:postId/like: Like a post.
     - [x] DELETE /posts/:postId/like: Unlike a post.
 
-- [ ] **Admin**
-    - [ ] GET /admin/users: View all users.
-    - [ ] PUT /admin/users/:id: Update user details.
+- [x] **Admin**
+    - [x] GET /admin/users: View all users.
+    - [x] PUT /admin/users/:id: Update user details.
     - [x] DELETE /admin/users/:id: Delete a user.
-    - [ ] PUT /admin/posts/:id: Update any post.
-    - [ ] DELETE /admin/posts/:id: Delete any post.
-    - [ ] GET /admin/comments: View all comments.
-    - [ ] DELETE /admin/comments/:id: Delete any comment.
-    - [ ] PUT /admin/categories/:id: Update any category.
-    - [ ] DELETE /admin/categories/:id: Delete any category.
-    - [ ] PUT /admin/tags/:id: Update any tag.
-    - [ ] DELETE /admin/tags/:id: Delete any tag.
+    - [x] PUT /admin/posts/:id: Update any post.
+    - [x] DELETE /admin/posts/:id: Delete any post.
+    - [x] GET /admin/comments: View all comments.
+    - [x] DELETE /admin/comments/:id: Delete any comment.
+    - [x] PUT /admin/categories/:id: Update any category.
+    - [x] DELETE /admin/categories/:id: Delete any category.
+    - [x] PUT /admin/tags/:id: Update any tag.
+    - [x] DELETE /admin/tags/:id: Delete any tag.

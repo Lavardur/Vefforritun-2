@@ -6,6 +6,7 @@ import commentRouter from './comment.routes.js';
 import categoryRouter from './category.routes.js';
 import tagRouter from './tag.routes.js';
 import likeRouter from './like.routes.js';
+import adminRouter from './admin.routes.js';
 
 const router = new Hono();
 
@@ -30,6 +31,9 @@ router.route('/', tagRouter);
 
 // Like Routes
 router.route('/', likeRouter);
+
+// Admin Routes
+router.route('/', adminRouter);
 
 // Root Route
 router.get('/', (c) => {
