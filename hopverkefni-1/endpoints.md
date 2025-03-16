@@ -4,12 +4,12 @@ API Endpoints
     - [x] POST /register: Register a new user.
     - [x] POST /login: Authenticate a user and return a JWT token.
 
-- [ ] **Posts**
-    - [ ] POST /posts: Create a new post.
-    - [ ] GET /posts: Get a list of all posts.
-    - [ ] GET /posts/:id: Get a single post by ID.
-    - [ ] PUT /posts/:id: Update a post by ID.
-    - [ ] DELETE /posts/:id: Delete a post by ID.
+- [x] **Posts**
+    - [x] POST /posts: Create a new post.
+    - [x] GET /posts: Get a list of all posts.
+    - [x] GET /posts/:id: Get a single post by ID.
+    - [x] PUT /posts/:id: Update a post by ID.
+    - [x] DELETE /posts/:id: Delete a post by ID.
 
 - [ ] **Comments**
     - [ ] POST /posts/:postId/comments: Add a comment to a post.

@@ -44,12 +44,12 @@ export const updatePost = async (c: Context) => {
     data: {
       title,
       content,
-      categories: {
+      categories: categoryIds ? {
         set: categoryIds.map((id: number) => ({ id })),
-      },
-      tags: {
+      } : undefined,
+      tags: tagIds ? {
         set: tagIds.map((id: number) => ({ id })),
-      },
+      } : undefined,
     },
   });
   return c.json({ message: 'Post updated successfully', post });
