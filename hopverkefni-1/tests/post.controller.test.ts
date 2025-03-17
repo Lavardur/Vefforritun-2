@@ -10,7 +10,7 @@ beforeAll((done) => {
   // Create a token for authentication - using the correct secret from .env
   token = jwt.sign(
     { id: 1, username: 'admin', isAdmin: true },
-    process.env.JWT_SECRET || 'your-secret-key',
+    process.env.JWT_ACCESS_SECRET || 'github_actions_test_secret',
     { expiresIn: '1h' }
   );
 

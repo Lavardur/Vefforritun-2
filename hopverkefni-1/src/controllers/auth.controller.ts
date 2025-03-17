@@ -7,6 +7,11 @@ import { userSchema } from '../utils/validationSchemas.js';
 
 const JWT_SECRET = process.env.JWT_ACCESS_SECRET as string;
 
+if (!JWT_SECRET) {
+  console.error('JWT_ACCESS_SECRET environment variable is not set!');
+  // You might want to throw an error or set a default for development
+}
+
 export const register = async (c: Context) => {
   try {
     let data = await c.req.json();
