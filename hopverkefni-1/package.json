@@ -3,6 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js",
     "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --watch",
     "test:sanitization": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/sanitization.test.ts",
@@ -15,7 +17,8 @@
     "generate": "prisma generate",
     "reset-db": "node scripts/reset-db.js",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
