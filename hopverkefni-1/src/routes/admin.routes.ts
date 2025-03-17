@@ -6,20 +6,20 @@ const adminRouter = new Hono();
 
 adminRouter.use('*', authMiddleware);
 
-adminRouter.get('/admin/users', getAllUsers);
-adminRouter.put('/admin/users/:id', updateUser);
-adminRouter.delete('/admin/users/:id', deleteUser);
+adminRouter.get('/users', getAllUsers);
+adminRouter.put('/users/:id', updateUser);
+adminRouter.delete('/users/:id', deleteUser);
 
-adminRouter.put('/admin/posts/:id', updateAnyPost);
-adminRouter.delete('/admin/posts/:id', deleteAnyPost);
+adminRouter.put('/posts/:id', updateAnyPost);
+adminRouter.delete('/posts/:id', deleteAnyPost);
 
-adminRouter.get('/admin/comments', getAllComments);
-adminRouter.delete('/admin/comments/:id', deleteAnyComment);
+adminRouter.get('/comments', getAllComments);
+adminRouter.delete('/comments/:id', deleteAnyComment);
 
-adminRouter.put('/admin/categories/:id', updateAnyCategory);
-adminRouter.delete('/admin/categories/:id', deleteAnyCategory);
+adminRouter.put('/categories/:id', updateAnyCategory);
+adminRouter.delete('/categories/:id', deleteAnyCategory);
 
-adminRouter.put('/admin/tags/:id', updateAnyTag);
-adminRouter.delete('/admin/tags/:id', deleteAnyTag);
+adminRouter.put('/tags/:id', updateAnyTag);
+adminRouter.delete('/tags/:id', deleteAnyTag);
 
 export default adminRouter;

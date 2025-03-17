@@ -1,17 +1,46 @@
 import type { Context } from 'hono';
 import prisma from '../utils/prisma.js';
+import { sanitizeObject } from '../utils/sanitization.js';
+import { tagSchema } from '../utils/validationSchemas.js';
 
 export const createTag = async (c: Context) => {
-  const { name } = await c.req.json();
-  const tag = await prisma.tag.create({
-    data: { name },
-  });
-  return c.json({ message: 'Tag created successfully', tag });
+  try {
+    let data = await c.req.json();
+
+    data = sanitizeObject(data);
+    await tagSchema.validate(data);
+
+    const { name } = data;
+    const tag = await prisma.tag.create({
+      data: { name },
+    });
+    return c.json({ message: 'Tag created successfully', tag });
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ message: error.message }, 400);
+    }
+    return c.json({ message: 'An unknown error occurred' }, 500);
+  }
 };
 
 export const getTags = async (c: Context) => {
-  const tags = await prisma.tag.findMany();
-  return c.json(tags);
+  try {
+    const { limit, offset } = c.req.query() as unknown as { limit: number; offset: number };
+
+    const tags = await prisma.tag.findMany({
+      skip: offset,
+      take: limit,
+    });
+
+    const total = await prisma.tag.count();
+
+    return c.json({ data: tags, total, limit, offset });
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ message: error.message }, 400);
+    }
+    return c.json({ message: 'An unknown error occurred' }, 500);
+  }
 };
 
 export const getTagById = async (c: Context) => {
@@ -24,13 +53,25 @@ export const getTagById = async (c: Context) => {
 };
 
 export const updateTag = async (c: Context) => {
-  const { id } = c.req.param();
-  const { name } = await c.req.json();
-  const tag = await prisma.tag.update({
-    where: { id: Number(id) },
-    data: { name },
-  });
-  return c.json({ message: 'Tag updated successfully', tag });
+  try {
+    const { id } = c.req.param();
+    let data = await c.req.json();
+
+    data = sanitizeObject(data);
+    await tagSchema.validate(data);
+
+    const { name } = data;
+    const tag = await prisma.tag.update({
+      where: { id: Number(id) },
+      data: { name },
+    });
+    return c.json({ message: 'Tag updated successfully', tag });
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ message: error.message }, 400);
+    }
+    return c.json({ message: 'An unknown error occurred' }, 500);
+  }
 };
 
 export const deleteTag = async (c: Context) => {

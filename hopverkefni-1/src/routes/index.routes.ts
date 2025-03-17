@@ -7,6 +7,7 @@ import categoryRouter from './category.routes.js';
 import tagRouter from './tag.routes.js';
 import likeRouter from './like.routes.js';
 import adminRouter from './admin.routes.js';
+import { collectRoutes } from '../utils/collectRoutes.js';
 
 const router = new Hono();
 
@@ -15,29 +16,30 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Post Routes
-router.route('/', postRouter);
+router.route('/posts', postRouter);
 
 // User Routes
-router.route('/', userRouter);
+router.route('/users', userRouter);
 
 // Comment Routes
-router.route('/', commentRouter);
+router.route('/comments', commentRouter);
 
 // Category Routes
-router.route('/', categoryRouter);
+router.route('/categories', categoryRouter);
 
 // Tag Routes
-router.route('/', tagRouter);
+router.route('/tags', tagRouter);
 
 // Like Routes
-router.route('/', likeRouter);
+router.route('/like', likeRouter);
 
 // Admin Routes
-router.route('/', adminRouter);
+router.route('/admin', adminRouter);
 
 // Root Route
 router.get('/', (c) => {
-  return c.text('Hello Hono!');
+  const routes = collectRoutes(router);
+  return c.json(routes);
 });
 
 export default router;

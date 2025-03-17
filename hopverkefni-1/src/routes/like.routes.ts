@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const likeRouter = new Hono();
 
-likeRouter.post('/posts/:postId/like', authMiddleware, likePost);
-likeRouter.delete('/posts/:postId/like', authMiddleware, unlikePost);
+likeRouter.post('/posts/:postId', authMiddleware, likePost);
+likeRouter.delete('/posts/:postId', authMiddleware, unlikePost);
 
 export default likeRouter;

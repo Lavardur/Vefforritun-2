@@ -4,10 +4,10 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const categoryRouter = new Hono();
 
-categoryRouter.post('/categories', authMiddleware, createCategory);
-categoryRouter.get('/categories', getCategories);
-categoryRouter.get('/categories/:id', getCategoryById);
-categoryRouter.put('/categories/:id', authMiddleware, updateCategory);
-categoryRouter.delete('/categories/:id', authMiddleware, deleteCategory);
+categoryRouter.post('/', authMiddleware, createCategory);
+categoryRouter.get('/', getCategories);
+categoryRouter.get('/:id', getCategoryById);
+categoryRouter.put('/:id', authMiddleware, updateCategory);
+categoryRouter.delete('/:id', authMiddleware, deleteCategory);
 
 export default categoryRouter;
