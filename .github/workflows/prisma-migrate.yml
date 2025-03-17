@@ -33,6 +33,21 @@ jobs:
       - name: Set up environment
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+          echo "JWT_ACCESS_SECRET=${{ secrets.JWT_ACCESS_SECRET }}" >> .env
+          
+      - name: Create .env file
+        run: |
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/testdb" > .env
+          echo "JWT_ACCESS_SECRET=github_actions_test_secret" >> .env
           
       - name: Run Prisma migrations
         run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          
+      - name: Run tests
+        run: npm test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          JWT_ACCESS_SECRET: github_actions_test_secret
