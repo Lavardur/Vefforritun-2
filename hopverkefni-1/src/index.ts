@@ -2,10 +2,13 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import dotenv from 'dotenv';
 import router from './routes/index.routes.js';
+import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
 
 const app = new Hono();
+
+app.use('*', errorHandler); // Use the error handling middleware
 
 app.route('/', router);
 

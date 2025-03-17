@@ -4,6 +4,6 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const userRouter = new Hono();
 
-userRouter.delete('/users/:id', authMiddleware, deleteUser);
+// userRouter.delete('/users/:id', authMiddleware, deleteUser);
 
 export default userRouter;

@@ -4,10 +4,10 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const postRouter = new Hono();
 
-postRouter.post('/posts', authMiddleware, createPost);
-postRouter.get('/posts', getPosts);
-postRouter.get('/posts/:id', getPostById);
-postRouter.put('/posts/:id', authMiddleware, updatePost);
-postRouter.delete('/posts/:id', authMiddleware, deletePost);
+postRouter.post('/', authMiddleware, createPost);
+postRouter.get('/', getPosts);
+postRouter.get('/:id', getPostById);
+postRouter.put('/:id', authMiddleware, updatePost);
+postRouter.delete('/:id', authMiddleware, deletePost);
 
 export default postRouter;
