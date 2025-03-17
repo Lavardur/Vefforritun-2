@@ -5,6 +5,7 @@ on:
     paths:
       - 'hopverkefni-1/prisma/schema.prisma'
     branches: [ main ]
+  workflow_dispatch:  # This allows manual triggering
 
 jobs:
   migrate:
@@ -27,24 +28,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Generate Prisma client
-        run: npx prisma generate
-        
-      - name: Set up environment
+      - name: Create .env file
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
           echo "JWT_ACCESS_SECRET=${{ secrets.JWT_ACCESS_SECRET }}" >> .env
           
-      - name: Create .env file
-        run: |
-          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/testdb" > .env
-          echo "JWT_ACCESS_SECRET=github_actions_test_secret" >> .env
+      - name: Generate Prisma client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           
       - name: Run Prisma migrations
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
           
       - name: Run tests
         run: npm test

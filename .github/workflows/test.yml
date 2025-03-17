@@ -9,6 +9,7 @@ on:
     paths:
       - 'hopverkefni-1/**'
     branches: [ main ]
+  workflow_dispatch:  # This allows manual triggering
 
 jobs:
   test:
@@ -49,25 +50,28 @@ jobs:
       - name: Create .env file
         run: |
           echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/testdb" > .env
-          echo "JWT_SECRET=github_actions_test_secret" >> .env
+          echo "JWT_ACCESS_SECRET=github_actions_test_secret" >> .env
           
       - name: Generate Prisma client
         run: npx prisma generate
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          JWT_ACCESS_SECRET: github_actions_test_secret
         
       - name: Run Prisma migrations
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          JWT_ACCESS_SECRET: github_actions_test_secret
         
       - name: Seed the database
         run: npm run seed
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          JWT_ACCESS_SECRET: github_actions_test_secret
         
       - name: Run tests
         run: npm test
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
-          JWT_SECRET: github_actions_test_secret
+          JWT_ACCESS_SECRET: github_actions_test_secret
