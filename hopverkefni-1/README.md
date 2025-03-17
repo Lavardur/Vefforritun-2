@@ -37,6 +37,11 @@
    npm run seed
    ```
 
+  > **Athugið:** Seeding mun búa til admin notanda með eftirfarandi upplýsingum:
+  >
+  > - **Notandanafn:** admin
+  > - **Lykilorð:** Pass123!
+
 5. **Keyrðu verkefnið:**
 
    ```sh
@@ -99,45 +104,51 @@ npm run reset-db
   - `POST /login`: Staðfesta notanda og skila JWT token.
 
 - **Færslur**
-  - `POST /posts`: Búa til nýja færslu.
-  - `GET /posts`: Sækja lista af öllum færslum.
+  - `POST /posts`: Búa til nýja færslu (auth required).
+  - `GET /posts`: Sækja lista af öllum færslum með stuðningi fyrir síðuskiptingu (`?page=1&limit=10`).
   - `GET /posts/:id`: Sækja eina færslu eftir ID.
-  - `PUT /posts/:id`: Uppfæra færslu eftir ID.
-  - `DELETE /posts/:id`: Eyða færslu eftir ID.
+  - `PUT /posts/:id`: Uppfæra færslu eftir ID (auth required).
+  - `DELETE /posts/:id`: Eyða færslu eftir ID (auth required).
 
 - **Athugasemdir**
-  - `POST /posts/:postId/comments`: Bæta athugasemd við færslu.
-  - `GET /posts/:postId/comments`: Sækja allar athugasemdir fyrir færslu.
-  - `PUT /comments/:commentId`: Uppfæra athugasemd eftir ID.
-  - `DELETE /comments/:commentId`: Eyða athugasemd eftir ID.
+  - `POST /comments/posts/:postId`: Bæta athugasemd við færslu (auth required).
+  - `GET /comments/posts/:postId`: Sækja athugasemdir fyrir færslu með stuðningi fyrir síðuskiptingu.
+  - `PUT /comments/:commentId`: Uppfæra athugasemd (auth required, eigin athugasemdir).
+  - `DELETE /comments/:commentId`: Eyða athugasemd (auth required, eigin athugasemdir).
 
 - **Flokkar**
-  - `POST /categories`: Búa til nýjan flokk.
-  - `GET /categories`: Sækja lista af öllum flokkum.
+  - `POST /categories`: Búa til nýjan flokk (auth required).
+  - `GET /categories`: Sækja lista af öllum flokkum með stuðningi fyrir síðuskiptingu.
   - `GET /categories/:id`: Sækja einn flokk eftir ID.
-  - `PUT /categories/:id`: Uppfæra flokk eftir ID.
-  - `DELETE /categories/:id`: Eyða flokk eftir ID.
+  - `PUT /categories/:id`: Uppfæra flokk eftir ID (auth required).
+  - `DELETE /categories/:id`: Eyða flokk eftir ID (auth required).
 
 - **Merki**
-  - `POST /tags`: Búa til nýtt merki.
-  - `GET /tags`: Sækja lista af öllum merkjum.
+  - `POST /tags`: Búa til nýtt merki (auth required).
+  - `GET /tags`: Sækja lista af öllum merkjum með stuðningi fyrir síðuskiptingu.
   - `GET /tags/:id`: Sækja eitt merki eftir ID.
-  - `PUT /tags/:id`: Uppfæra merki eftir ID.
-  - `DELETE /tags/:id`: Eyða merki eftir ID.
+  - `PUT /tags/:id`: Uppfæra merki eftir ID (auth required).
+  - `DELETE /tags/:id`: Eyða merki eftir ID (auth required).
 
 - **Læk**
-  - `POST /posts/:postId/like`: Lækka færslu.
-  - `DELETE /posts/:postId/like`: Af-lækka færslu.
+  - `POST /like/posts/:postId`: Lækka færslu (auth required).
+  - `DELETE /like/posts/:postId`: Af-lækka færslu (auth required).
 
-- **Stjórnandi**
-  - `GET /admin/users`: Skoða alla notendur.
+- **Stjórnandi** (Krefst admin réttinda)
+  - `GET /admin/users`: Sækja lista af öllum notendum með stuðningi fyrir síðuskiptingu.
   - `PUT /admin/users/:id`: Uppfæra notendaupplýsingar.
   - `DELETE /admin/users/:id`: Eyða notanda.
   - `PUT /admin/posts/:id`: Uppfæra hvaða færslu sem er.
   - `DELETE /admin/posts/:id`: Eyða hvaða færslu sem er.
-  - `GET /admin/comments`: Skoða allar athugasemdir.
+  - `GET /admin/comments`: Sækja lista af öllum athugasemdum.
   - `DELETE /admin/comments/:id`: Eyða hvaða athugasemd sem er.
   - `PUT /admin/categories/:id`: Uppfæra hvaða flokk sem er.
   - `DELETE /admin/categories/:id`: Eyða hvaða flokk sem er.
   - `PUT /admin/tags/:id`: Uppfæra hvaða merki sem er.
   - `DELETE /admin/tags/:id`: Eyða hvaða merki sem er.
+
+### Athugasemdir:
+
+- Allir endapunktar sem eru merktir með "(auth required)" krefjast JWT auðkenningar með Bearer token í Authorization haus.
+- Síðuskiptingarparametrar (`page` og `limit`) eru studdir fyrir endapunkta sem skila listum. Sjálfgefið `limit=10` og `page=1`.
+- Admin endapunktar krefjast þess að notandi hafi `isAdmin=true` stillingu.
