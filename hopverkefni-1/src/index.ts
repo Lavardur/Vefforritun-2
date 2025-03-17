@@ -12,12 +12,18 @@ app.use('*', errorHandler); // Use the error handling middleware
 
 app.route('/', router);
 
-serve(
-  {
-    fetch: app.fetch,
-    port: 3000,
-  },
-  (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
-  }
-);
+// Only start the server if this file is executed directly (not imported)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  serve(
+    {
+      fetch: app.fetch,
+      port: 3000,
+    },
+    (info) => {
+      console.log(`Server is running on http://localhost:${info.port}`);
+    }
+  );
+}
+
+// Export the app for testing
+export default app;

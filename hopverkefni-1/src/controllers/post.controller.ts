@@ -120,12 +120,26 @@ export const getPostById = async (c: Context) => {
 export const updatePost = async (c: Context) => {
   try {
     const data = await c.req.json() as PostToCreate;
-
     const sanitizedData = sanitizeObject(data);
     await postSchema.validate(sanitizedData);
 
     const { id } = c.req.param();
     const { title, content, categoryIds, tagIds } = sanitizedData;
+    const user = c.get('user');
+    
+    // First, check if the post exists and belongs to the user
+    const existingPost = await prisma.post.findUnique({
+      where: { id: Number(id) },
+    });
+    
+    if (!existingPost) {
+      return c.json({ message: 'Post not found' }, 404);
+    }
+    
+    // Check if the user is the author or an admin
+    if (existingPost.authorId !== user.id && !user.isAdmin) {
+      return c.json({ message: 'Unauthorized - you can only update your own posts' }, 403);
+    }
 
     const post = await prisma.post.update({
       where: { id: Number(id) },
@@ -163,7 +177,25 @@ export const updatePost = async (c: Context) => {
 export const deletePost = async (c: Context) => {
   try {
     const { id } = c.req.param();
-    await prisma.post.delete({ where: { id: Number(id) } });
+    const postId = Number(id);
+    const user = c.get('user');
+    
+    // First check if the post exists
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+    
+    if (!post) {
+      return c.json({ message: 'Post not found' }, 404);
+    }
+    
+    // Check if the user is the author or an admin
+    if (post.authorId !== user.id && !user.isAdmin) {
+      return c.json({ message: 'Unauthorized - you can only delete your own posts' }, 403);
+    }
+    
+    // Then delete it
+    await prisma.post.delete({ where: { id: postId } });
     return c.json({ message: 'Post deleted successfully' });
   } catch (error) {
     if (error instanceof Error) {
