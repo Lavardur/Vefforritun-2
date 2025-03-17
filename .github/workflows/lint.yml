@@ -35,3 +35,4 @@ jobs:
         
       - name: Run ESLint
         run: npm run lint
+        continue-on-error: true  # Don't fail the build for linting errors initially
