@@ -1,5 +1,27 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
+
+// Try to load .env file if DATABASE_URL is not provided
+if (!process.env.DATABASE_URL) {
+  try {
+    const envPath = path.resolve(__dirname, '../.env');
+    if (fs.existsSync(envPath)) {
+      require('dotenv').config({ path: envPath });
+      console.log('Loaded environment variables from .env file');
+    } else {
+      console.log('No .env file found, please ensure DATABASE_URL is set');
+    }
+  } catch (error) {
+    console.error('Error loading .env file:', error);
+  }
+}
+
+if (!process.env.DATABASE_URL) {
+  console.error('DATABASE_URL environment variable is required');
+  process.exit(1);
+}
 
 const prisma = new PrismaClient();
 
