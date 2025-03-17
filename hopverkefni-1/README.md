@@ -2,6 +2,12 @@
 
 Þessar leiðbeiningar munu hjálpa þér að setja upp og keyra verkefnið á þinni tölvu.
 
+## Hýsing
+
+Verkefnið er hýst á eftirfarandi slóð:
+
+[https://vefforritun-2-mn9h.onrender.com/](https://vefforritun-2-mn9h.onrender.com/)
+
 ## Uppsetning
 
 1. **Afritaðu repoið:**
