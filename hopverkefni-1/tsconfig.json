@@ -12,8 +12,11 @@
     "jsxImportSource": "hono/jsx",
     "outDir": "./dist",
     "sourceMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "jest.setup.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "jest.setup.ts", "prisma/**/*.ts", "prisma/seed.cjs"],
   "exclude": ["node_modules", "dist"]
 }

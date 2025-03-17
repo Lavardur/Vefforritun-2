@@ -4,7 +4,18 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js",
-    "test:sanitization": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/sanitization.test.ts"
+    "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --watch",
+    "test:sanitization": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/sanitization.test.ts",
+    "test:auth": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/auth.test.ts",
+    "test:pagination": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/pagination.test.ts",
+    "test:posts": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --testPathPattern=tests/post.controller.test.ts",
+    "test:errors": "node scripts/test-errors.js",
+    "seed": "node prisma/seed.cjs",
+    "migrate": "prisma migrate deploy",
+    "generate": "prisma generate",
+    "reset-db": "node scripts/reset-db.js",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
@@ -19,13 +30,20 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.17.24",
     "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
     "cross-env": "^7.0.3",
+    "eslint": "^9.22.0",
     "jest": "^29.7.0",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.cjs"
   }
 }
