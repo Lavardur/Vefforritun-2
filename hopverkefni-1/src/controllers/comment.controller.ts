@@ -38,7 +38,10 @@ export const addComment = async (c: Context) => {
 export const getCommentsByPostId = async (c: Context) => {
   try {
     const { postId } = c.req.param();
-    const { limit, offset } = c.req.query() as unknown as { limit: number; offset: number };
+    const query = c.req.query() as { limit?: string; page?: string };
+    const limit = query.limit ? parseInt(query.limit, 10) : 10; // Default to 10 items per page
+    const page = query.page ? parseInt(query.page, 10) : 1; // Default to first page
+    const offset = (page - 1) * limit; // Calculate offset from page number
 
     const comments = await prisma.comment.findMany({
       where: { postId: Number(postId) },
@@ -50,7 +53,18 @@ export const getCommentsByPostId = async (c: Context) => {
       where: { postId: Number(postId) },
     });
 
-    return c.json({ data: comments, total, limit, offset });
+    const totalPages = Math.ceil(total / limit);
+
+    return c.json({
+      data: comments,
+      pagination: {
+        total,
+        limit,
+        page,
+        totalPages,
+        offset
+      }
+    });
   } catch (error) {
     if (error instanceof Error) {
       return c.json({ message: error.message }, 400);

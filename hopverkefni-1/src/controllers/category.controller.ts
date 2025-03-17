@@ -25,7 +25,10 @@ export const createCategory = async (c: Context) => {
 
 export const getCategories = async (c: Context) => {
   try {
-    const { limit, offset } = c.req.query() as unknown as { limit: number; offset: number };
+    const query = c.req.query() as { limit?: string; page?: string };
+    const limit = query.limit ? parseInt(query.limit, 10) : 10; // Default to 10 items per page
+    const page = query.page ? parseInt(query.page, 10) : 1; // Default to first page
+    const offset = (page - 1) * limit; // Calculate offset from page number
 
     const categories = await prisma.category.findMany({
       skip: offset,
@@ -33,8 +36,18 @@ export const getCategories = async (c: Context) => {
     });
 
     const total = await prisma.category.count();
+    const totalPages = Math.ceil(total / limit);
 
-    return c.json({ data: categories, total, limit, offset });
+    return c.json({
+      data: categories,
+      pagination: {
+        total,
+        limit,
+        page,
+        totalPages,
+        offset
+      }
+    });
   } catch (error) {
     if (error instanceof Error) {
       return c.json({ message: error.message }, 400);

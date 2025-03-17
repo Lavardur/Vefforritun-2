@@ -4,8 +4,36 @@ import { sanitizeObject } from '../utils/sanitization.js';
 import { updateUserSchema, postSchema, categorySchema, tagSchema } from '../utils/validationSchemas.js';
 
 export const getAllUsers = async (c: Context) => {
-  const users = await prisma.user.findMany();
-  return c.json(users);
+  try {
+    const query = c.req.query() as { limit?: string; page?: string };
+    const limit = query.limit ? parseInt(query.limit, 10) : 10; // Default to 10 items per page
+    const page = query.page ? parseInt(query.page, 10) : 1; // Default to first page
+    const offset = (page - 1) * limit; // Calculate offset from page number
+
+    const users = await prisma.user.findMany({
+      skip: offset,
+      take: limit,
+    });
+
+    const total = await prisma.user.count();
+    const totalPages = Math.ceil(total / limit);
+
+    return c.json({
+      data: users,
+      pagination: {
+        total,
+        limit,
+        page,
+        totalPages,
+        offset
+      }
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ message: error.message }, 400);
+    }
+    return c.json({ message: 'An unknown error occurred' }, 500);
+  }
 };
 
 export const updateUser = async (c: Context) => {
