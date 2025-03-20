@@ -1,5 +1,4 @@
 import { Category } from '@/components/Category/Category';
-import Navigation from '@/components/Navigation/Navigation';
 import styles from "../../page.module.css";
 
 export default async function FlokkaPage({
@@ -11,7 +10,6 @@ export default async function FlokkaPage({
 
   return (
     <div className={styles.page}>
-      <Navigation />
       <main className={styles.main}>
         <Category slug={flokkur} />
       </main>

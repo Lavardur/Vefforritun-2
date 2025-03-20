@@ -8,15 +8,33 @@ export class QuestionsApi {
     try {
       response = await fetch(url, options);
     } catch (e) {
-      console.error('error fetching from api', url, e);
+      console.error('Error fetching from API:', url, e);
       return null;
     }
 
     if (!response.ok) {
-      console.error('non 2xx status from API', url, response.status);
+      console.error('Non 2xx status from API:', url, response.status);
+      
+      // Try to get more details about the error
+      try {
+        const errorText = await response.text();
+        console.error('Error response body:', errorText);
+        
+        // Try to parse as JSON for more detailed error info
+        try {
+          const errorJson = JSON.parse(errorText);
+          console.error('Parsed error:', errorJson);
+        } catch {
+          // If it's not valid JSON, the raw text is already logged above
+        }
+      } catch (e) {
+        console.error('Could not read error response');
+      }
+      
       return null;
     }
 
+    // For DELETE requests or other requests that don't return content
     if (response.status === 204) {
       return null;
     }
@@ -25,7 +43,7 @@ export class QuestionsApi {
     try {
       json = await response.json();
     } catch (e) {
-      console.error('error parsing json', url, e);
+      console.error('Error parsing JSON:', url, e);
       return null;
     }
 
@@ -96,21 +114,29 @@ export class QuestionsApi {
 
   async createQuestion(
     text: string,
-    categoryId: string,
+    categoryId: string, // Keep accepting string from component
     answers: { text: string; correct: boolean }[]
   ): Promise<Question | null> {
     const url = BASE_URL + '/questions';
+    
+    // Convert categoryId from string to number
+    const numericCategoryId = parseInt(categoryId, 10);
+    
+    // Create the request payload with the correct field name and type
+    const payload = {
+      text,
+      categoryId: numericCategoryId, // Converted to number
+      answers
+    };
+    
+    console.log('Creating question with payload:', payload);
     
     const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        text,
-        category_id: categoryId,
-        answers,
-      }),
+      body: JSON.stringify(payload),
     };
     
     return await this.fetchFromApi<Question>(url, options);

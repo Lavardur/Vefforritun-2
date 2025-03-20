@@ -33,8 +33,17 @@ export default function QuestionsAdmin() {
   useEffect(() => {
     if (selectedCategory) {
       fetchQuestions(selectedCategory);
+      
+      // Update the categoryId in the newQuestion form
+      const categoryId = categories.find(cat => cat.slug === selectedCategory)?.id;
+      if (categoryId) {
+        setNewQuestion(prev => ({
+          ...prev,
+          categoryId: categoryId.toString()
+        }));
+      }
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, categories]);
 
   async function fetchCategories() {
     const api = new QuestionsApi();
@@ -66,27 +75,102 @@ export default function QuestionsAdmin() {
 
   const handleAddQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetchQuestions(selectedCategory);
-    resetNewQuestion();
+    
+    try {
+      const api = new QuestionsApi();
+      
+      // Find the category ID for the selected category slug
+      const category = categories.find(cat => cat.slug === selectedCategory);
+      const categoryId = category?.id;
+      
+      if (!categoryId) {
+        console.error('Could not find category ID for the selected category');
+        return;
+      }
+      
+      console.log('Creating question:');
+      console.log('- Text:', newQuestion.text);
+      console.log('- Category ID:', categoryId);
+      console.log('- Answers:', newQuestion.answers);
+      
+      // Create the question
+      const result = await api.createQuestion(
+        newQuestion.text,
+        categoryId.toString(), // Keep the toString()
+        newQuestion.answers
+      );
+      
+      if (result) {
+        console.log('Question created successfully:', result);
+        // Refresh the questions list
+        fetchQuestions(selectedCategory);
+        // Reset the form
+        resetNewQuestion();
+      } else {
+        console.error('Failed to create question');
+      }
+    } catch (error) {
+      console.error('Error creating question:', error);
+    }
   };
 
   const handleEditQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editQuestion) return;
-    fetchQuestions(selectedCategory);
-    setEditQuestion(null);
+    
+    try {
+      const api = new QuestionsApi();
+      
+      // Update the question
+      const result = await api.updateQuestion(
+        editQuestion.id,
+        editQuestion.text,
+        editQuestion.answers
+      );
+      
+      if (result) {
+        // Refresh the questions list
+        fetchQuestions(selectedCategory);
+        // Close the edit modal
+        setEditQuestion(null);
+      } else {
+        console.error('Failed to update question');
+        // You might want to show an error message to the user
+      }
+    } catch (error) {
+      console.error('Error updating question:', error);
+      // You might want to show an error message to the user
+    }
   };
 
-  const handleDeleteQuestion = async (_id: number) => {
+  const handleDeleteQuestion = async (id: number) => {
     if (confirm('Ertu viss um að þú viljir eyða þessari spurningu?')) {
-      fetchQuestions(selectedCategory);
+      try {
+        const api = new QuestionsApi();
+        
+        // Delete the question
+        const success = await api.deleteQuestion(id);
+        
+        if (success) {
+          // Refresh the questions list
+          fetchQuestions(selectedCategory);
+        } else {
+          console.error('Failed to delete question');
+          // You might want to show an error message to the user
+        }
+      } catch (error) {
+        console.error('Error deleting question:', error);
+        // You might want to show an error message to the user
+      }
     }
   };
 
   const resetNewQuestion = () => {
+    const categoryId = categories.find(cat => cat.slug === selectedCategory)?.id;
+    
     setNewQuestion({
       text: '',
-      categoryId: selectedCategory,
+      categoryId: categoryId ? categoryId.toString() : '',
       answers: [
         { text: '', correct: true },
         { text: '', correct: false },
