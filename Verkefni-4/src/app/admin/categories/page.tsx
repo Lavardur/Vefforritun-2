@@ -102,7 +102,6 @@ export default function CategoriesAdmin() {
         <div className={styles.error}>{errorMessage}</div>
       )}
       
-      {/* Add new category form */}
       <div className={styles.formContainer}>
         <h3>Bæta við nýjum flokk</h3>
         <form onSubmit={handleAddCategory}>
@@ -120,7 +119,6 @@ export default function CategoriesAdmin() {
         </form>
       </div>
 
-      {/* List of existing categories */}
       {uiState === 'loading' && <div className={styles.loading}>Sæki flokka...</div>}
       {uiState === 'error' && <div className={styles.error}>Villa við að sækja flokka</div>}
       {uiState === 'data' && categories && (
@@ -164,7 +162,6 @@ export default function CategoriesAdmin() {
         </div>
       )}
 
-      {/* Edit category modal/dialog */}
       {editCategory && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>

@@ -17,7 +17,6 @@ export class QuestionsApi {
       return null;
     }
 
-    // For DELETE requests or other requests that don't return content
     if (response.status === 204) {
       return null;
     }
@@ -33,7 +32,6 @@ export class QuestionsApi {
     return json as T;
   }
 
-  // CATEGORY METHODS
   async getCategory(slug: string): Promise<Category | null> {
     const url = BASE_URL + `/categories/${slug}`;
     return await this.fetchFromApi<Category>(url);
@@ -81,11 +79,9 @@ export class QuestionsApi {
     
     await this.fetchFromApi(url, options);
     
-    // Return true if we got this far (no exception was thrown)
     return true;
   }
 
-  // QUESTION METHODS
   async getQuestions(
     categorySlug: string,
   ): Promise<Paginated<Question> | null> {
@@ -150,7 +146,6 @@ export class QuestionsApi {
     
     await this.fetchFromApi(url, options);
     
-    // Return true if we got this far
     return true;
   }
 }

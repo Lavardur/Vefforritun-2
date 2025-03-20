@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation/Navigation';
 import Link from 'next/link';
 import styles from '../page.module.css';
 import adminStyles from './admin.module.css';
+import Footer from "@/components/Footer/Footer";
 
 export default function AdminPage() {
   return (
@@ -24,9 +25,9 @@ export default function AdminPage() {
           </div>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <p>Vefforritun 2, 2025 - Verkefni 4</p>
-      </footer>
+
+      <Footer />
+
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { QuestionsApi } from '@/api';
-import { Answer, Category, Paginated, Question, UiState } from '@/types';
+import {Category, Question, UiState } from '@/types';
 import { useEffect, useState } from 'react';
 import styles from './Questions.module.css';
 
@@ -66,8 +66,6 @@ export default function QuestionsAdmin() {
 
   const handleAddQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
-    // API call to add question
-    // After success:
     fetchQuestions(selectedCategory);
     resetNewQuestion();
   };
@@ -75,16 +73,12 @@ export default function QuestionsAdmin() {
   const handleEditQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editQuestion) return;
-    // API call to update question
-    // After success:
     fetchQuestions(selectedCategory);
     setEditQuestion(null);
   };
 
-  const handleDeleteQuestion = async (id: number) => {
+  const handleDeleteQuestion = async (_id: number) => {
     if (confirm('Ertu viss um að þú viljir eyða þessari spurningu?')) {
-      // API call to delete question
-      // After success:
       fetchQuestions(selectedCategory);
     }
   };
@@ -106,12 +100,10 @@ export default function QuestionsAdmin() {
     const updatedAnswers = [...newQuestion.answers];
     
     if (correct !== undefined) {
-      // When changing which answer is correct
       updatedAnswers.forEach((a, i) => {
         updatedAnswers[i] = {...a, correct: i === index};
       });
     } else {
-      // Just update the text
       updatedAnswers[index] = {...updatedAnswers[index], text};
     }
     
@@ -124,12 +116,10 @@ export default function QuestionsAdmin() {
     const updatedAnswers = [...editQuestion.answers];
     
     if (correct !== undefined) {
-      // When changing which answer is correct
       updatedAnswers.forEach((a, i) => {
         updatedAnswers[i] = {...a, correct: i === index};
       });
     } else {
-      // Just update the text
       updatedAnswers[index] = {...updatedAnswers[index], text};
     }
     
@@ -139,8 +129,6 @@ export default function QuestionsAdmin() {
   return (
     <div className={styles.container}>
       <h2>Spurningar</h2>
-      
-      {/* Category selector */}
       <div className={styles.categorySelector}>
         <label htmlFor="categorySelect">Veldu flokk:</label>
         <select 
@@ -156,7 +144,6 @@ export default function QuestionsAdmin() {
         </select>
       </div>
       
-      {/* Add new question form */}
       <div className={styles.formContainer}>
         <h3>Bæta við nýrri spurningu</h3>
         <form onSubmit={handleAddQuestion}>
@@ -200,7 +187,6 @@ export default function QuestionsAdmin() {
         </form>
       </div>
 
-      {/* List of existing questions */}
       {uiState === 'loading' && <div className={styles.loading}>Sæki spurningar...</div>}
       {uiState === 'error' && <div className={styles.error}>Villa við að sækja spurningar</div>}
       {uiState === 'empty' && <div className={styles.empty}>Engar spurningar í þessum flokki</div>}
@@ -236,7 +222,6 @@ export default function QuestionsAdmin() {
         </div>
       )}
 
-      {/* Edit question modal/dialog */}
       {editQuestion && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>

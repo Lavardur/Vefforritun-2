@@ -22,7 +22,6 @@ export function Category({ slug }: { slug: string }): JSX.Element {
         return;
       }
       
-      // Set a readable category name from the slug
       setCategoryName(slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' '));
       
       if (response.data.length === 0) {

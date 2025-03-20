@@ -1,6 +1,7 @@
 import styles from "../page.module.css";
 import Categories from '@/components/Categories/Categories';
 import Navigation from '@/components/Navigation/Navigation';
+import Footer from '@/components/Footer/Footer';
 
 export default function CategoriesPage() {
   return (
@@ -9,9 +10,7 @@ export default function CategoriesPage() {
       <main className={styles.main}>
         <Categories title="Allir flokkar" />
       </main>
-      <footer className={styles.footer}>
-        <p>Vefforritun 2, 2025 - Verkefni 4</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

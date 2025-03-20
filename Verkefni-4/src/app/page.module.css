@@ -11,7 +11,6 @@
   padding: 0 1.5rem;
 }
 
-/* Hero section */
 .hero {
   padding: 4rem 0;
   text-align: center;
@@ -76,7 +75,6 @@
   transform: translateY(-2px);
 }
 
-/* Info section */
 .infoSection {
   padding: 3rem 0;
 }
@@ -97,7 +95,6 @@
   text-align: center;
 }
 
-/* Functionality section */
 .functionalitySection {
   padding: 3rem 0;
   background-color: #f6f9fc;
@@ -137,13 +134,4 @@
 
 .featureList ul li {
   margin-bottom: 0.5rem;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 2rem 0;
-  background-color: #f8f9fa;
-  border-top: 1px solid #eee;
-  color: #7f8c8d;
 }

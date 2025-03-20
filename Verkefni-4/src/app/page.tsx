@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import Navigation from "@/components/Navigation/Navigation";
+import Footer from "@/components/Footer/Footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -11,7 +12,7 @@ export default function Home() {
           <h1 className={styles.title}>Vefforritun 2, 2025</h1>
           <h2 className={styles.subtitle}>Verkefni 4: React framendi</h2>
           <p className={styles.description}>
-            Spurningaleikur með fjölbreyttum spurningum í mismunandi flokkum
+            Flokkar af spurningum sem er hægt að svara og fá endurgjöf á svari.	 
           </p>
           <div className={styles.actions}>
             <Link href="/flokkar" className={styles.primaryButton}>
@@ -52,9 +53,7 @@ export default function Home() {
         </section>
       </main>
       
-      <footer className={styles.footer}>
-        <p>Vefforritun 2, 2025 - Verkefni 4</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

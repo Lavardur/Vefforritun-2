@@ -31,12 +31,10 @@
   color: #3498db;
 }
 
-/* Active link styling - add a class to active links */
 .active {
   color: #3498db !important;
 }
 
-/* Underline effect for links */
 .nav a::after {
   content: '';
   position: absolute;
@@ -52,7 +50,6 @@
   width: 100%;
 }
 
-/* Responsive styling */
 @media (max-width: 768px) {
   .nav ul {
     flex-direction: column;
