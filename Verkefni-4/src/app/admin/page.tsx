@@ -1,13 +1,10 @@
-import Navigation from '@/components/Navigation/Navigation';
 import Link from 'next/link';
 import styles from '../page.module.css';
 import adminStyles from './admin.module.css';
-import Footer from "@/components/Footer/Footer";
 
 export default function AdminPage() {
   return (
     <div className={styles.page}>
-      <Navigation />
       <main className={styles.main}>
         <div className={adminStyles.adminContainer}>
           <h1 className={adminStyles.heading}>Stjórnborð</h1>
@@ -25,8 +22,6 @@ export default function AdminPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
 
     </div>
   );

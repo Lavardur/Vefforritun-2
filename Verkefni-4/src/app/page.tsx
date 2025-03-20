@@ -1,12 +1,9 @@
 import styles from "./page.module.css";
-import Navigation from "@/components/Navigation/Navigation";
-import Footer from "@/components/Footer/Footer";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Navigation />
       <main className={styles.main}>
         <div className={styles.hero}>
           <h1 className={styles.title}>Vefforritun 2, 2025</h1>
@@ -52,8 +49,6 @@ export default function Home() {
           </ul>
         </section>
       </main>
-      
-      <Footer />
     </div>
   );
 }
