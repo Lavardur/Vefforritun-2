@@ -1,0 +1,43 @@
+.adminContainer {
+  padding: 2rem 0;
+}
+
+.heading {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.adminCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.adminCard {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.adminCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.adminCard h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #3498db;
+}
+
+.adminCard p {
+  color: #7f8c8d;
+  margin: 0;
+}

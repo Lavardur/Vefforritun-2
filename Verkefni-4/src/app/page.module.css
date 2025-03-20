@@ -1,4 +1,149 @@
 .page {
-  max-width: 500px;
+  max-width: 1200px;
   margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 0 1.5rem;
+}
+
+/* Hero section */
+.hero {
+  padding: 4rem 0;
+  text-align: center;
+  background: linear-gradient(to right, #f6f9fc, #eef2f7);
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  color: #3498db;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.primaryButton, .secondaryButton {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.primaryButton {
+  background-color: #3498db;
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  background-color: white;
+  color: #3498db;
+  border: 2px solid #3498db;
+}
+
+.secondaryButton:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+/* Info section */
+.infoSection {
+  padding: 3rem 0;
+}
+
+.infoSection h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.infoSection p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+}
+
+/* Functionality section */
+.functionalitySection {
+  padding: 3rem 0;
+  background-color: #f6f9fc;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+}
+
+.functionalitySection h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.featureList {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 2rem;
+}
+
+.featureList li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.featureList span {
+  font-weight: 600;
+  color: #3498db;
+}
+
+.featureList ul {
+  margin-top: 0.5rem;
+  padding-left: 2rem;
+}
+
+.featureList ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+  color: #7f8c8d;
 }

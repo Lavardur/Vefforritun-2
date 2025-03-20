@@ -1,0 +1,57 @@
+.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  font-size: 2rem;
+}
+
+.questionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.message {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 0;
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  background-color: #ffeeee;
+  border-radius: 8px;
+  color: #e74c3c;
+  font-size: 1.2rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+}

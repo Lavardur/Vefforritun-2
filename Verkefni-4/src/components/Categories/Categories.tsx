@@ -1,57 +1,72 @@
 'use client';
 
 import { QuestionsApi } from '@/api';
-import { Category, Paginated, UiState } from '@/types';
-import Link from 'next/link';
+import { Category, UiState } from '@/types';
 import { useEffect, useState } from 'react';
 import styles from './Categories.module.css';
+import Link from 'next/link';
 
-type Props = {
+interface CategoriesProps {
   title: string;
-  tag?: string;
-  popular?: boolean;
-};
+}
 
-export default function Categories({ title }: Props) {
-  const [uiState, setUiState] = useState<UiState>('initial');
-  const [categories, setCategories] = useState<Paginated<Category> | null>(
-    null,
-  );
+export default function Categories({ title }: CategoriesProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [uiState, setUiState] = useState<UiState>('loading');
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchCategories() {
       setUiState('loading');
-
       const api = new QuestionsApi();
-      const categoriesResponse = await api.getCategories();
+      const result = await api.getCategories();
 
-      if (!categoriesResponse) {
+      if (!result) {
         setUiState('error');
+        return;
+      }
+
+      if (result.data.length === 0) {
+        setUiState('empty');
       } else {
+        setCategories(result.data);
         setUiState('data');
-        setCategories(categoriesResponse);
       }
     }
-    fetchData();
+
+    fetchCategories();
   }, []);
 
-  console.log(categories);
-
   return (
-    <div className={styles.cats}>
-      <h2>{title}</h2>
+    <main className={styles.main}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>{title}</h1>
 
-      {uiState === 'loading' && <p>Sæki flokka</p>}
-      {uiState === 'error' && <p>Villa við að sækja flokka</p>}
-      {uiState === 'data' && (
-        <ul>
-          {categories?.data.map((category, index) => (
-            <li key={index}>
-              <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+        {uiState === 'loading' && (
+          <div className={styles.loading}>Sæki flokka...</div>
+        )}
+
+        {uiState === 'error' && (
+          <div className={styles.error}>Villa við að sækja flokka</div>
+        )}
+
+        {uiState === 'empty' && (
+          <div className={styles.empty}>Engir flokkar fundust</div>
+        )}
+
+        {uiState === 'data' && (
+          <div className={styles.categoryGrid}>
+            {categories.map((category) => (
+              <Link 
+                href={`/flokkar/${category.slug}`} 
+                key={category.id}
+                className={styles.categoryCard}
+              >
+                <h2>{category.name}</h2>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
