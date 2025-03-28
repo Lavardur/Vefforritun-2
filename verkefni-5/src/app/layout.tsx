@@ -37,19 +37,20 @@ export default function RootLayout({
       <body>
         <header>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1>Vefforritun 2, 2025, verkefni 5: Next.js og CMS kerfi</h1>
+            <h1>Sundlaugar </h1>
+            <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
             <ThemeToggler />
           </div>
           <nav>
-            <a className="navlink" href="/basic">
+            <a className="navlink" href="/">
               🔧 Forsíða
             </a>
-            <a className="navlink" href="/real-time-updates">
+            <a className="navlink" href="/basic">
               ⚡️ Sundlaugar
             </a>
             
           </nav>
-          <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
+         
         </header>
         <main>{children}</main>
       </body>
