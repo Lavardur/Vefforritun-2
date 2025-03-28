@@ -1,4 +1,5 @@
 import DraftModeToggler from '@/components/DraftModeToggler';
+import ThemeToggler from '@/components/ThemeToggler';
 import { TagFragment } from '@/lib/datocms/commonFragments';
 import { executeQuery } from '@/lib/datocms/executeQuery';
 import { graphql } from '@/lib/datocms/graphql';
@@ -35,17 +36,18 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header>
-          <h1>DatoCMS + Next.js Starter Kit</h1>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1>Vefforritun 2, 2025, verkefni 5: Next.js og CMS kerfi</h1>
+            <ThemeToggler />
+          </div>
           <nav>
-            <a className="navlink" href="https://www.datocms.com/docs/next-js">
-              📚 Full Integration Guide
-            </a>
             <a className="navlink" href="/basic">
-              🔧 Basic Route
+              🔧 Forsíða
             </a>
             <a className="navlink" href="/real-time-updates">
-              ⚡️ Real-time Updates Route
+              ⚡️ Sundlaugar
             </a>
+            
           </nav>
           <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
         </header>
