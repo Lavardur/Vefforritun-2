@@ -1,26 +1,42 @@
 {
-  "name": "verkefni-5",
+  "name": "nextjs-starter-kit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint && prettier --check .",
+    "generate-schema": "dotenv -c -- bash -c 'gql.tada generate schema https://graphql.datocms.com --header \"X-Exclude-Invalid: true\" --header \"Authorization: $DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN\"'",
+    "format": "npx prettier . --write",
+    "prepare": "npx simple-git-hooks && npm run generate-schema"
   },
   "dependencies": {
-    "next": "15.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@datocms/cda-client": "^0.2.6",
+    "@datocms/cma-client": "^4.0.1",
+    "@types/highlight.js": "^10.1.0",
+    "datocms-structured-text-to-plain-text": "^5.0.0",
+    "datocms-structured-text-utils": "^5.0.0",
+    "gql.tada": "^1.8.10",
+    "highlight.js": "^11.10.0",
+    "jsdom": "^24.1.0",
+    "next": "14.2.4",
+    "react": "^18",
+    "react-datocms": "^7.2.2",
+    "react-dom": "^18",
+    "serialize-error": "^11.0.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.4",
-    "sass": "^1.86.0",
-    "typescript": "^5"
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "dotenv-cli": "^7.4.2",
+    "prettier": "3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.7.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run format"
   }
 }
