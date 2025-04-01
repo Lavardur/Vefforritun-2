@@ -17,7 +17,8 @@ const query = graphql(
         email
       }
     }
-  `,[TagFragment,],
+  `,
+  [TagFragment],
 );
 
 export default async function SundlaugPage({ params }: { params: { slug: string } }) {
@@ -41,7 +42,7 @@ export default async function SundlaugPage({ params }: { params: { slug: string 
     return (
       <div className="sundlaug-detail">
         <h1>{sundlaug.title}</h1>
-        
+
         <div className="info-item">
           <h3>Staðsetning</h3>
           <p>{sundlaug.address}</p>

@@ -18,7 +18,7 @@
   --color-background-accent: #f4cf58;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-text-1: #ffffff;
   --color-text-2: #eeeeee;
   --color-background-1: #000000;

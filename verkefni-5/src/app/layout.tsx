@@ -37,7 +37,7 @@ export default function RootLayout({
       <body>
         <header>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h1>Sundlaugar </h1>
+            <h1>Sundlaugar </h1>
             <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
             <ThemeToggler />
           </div>
@@ -52,7 +52,6 @@ export default function RootLayout({
               🏊‍♂️ Sundlaug
             </a>
           </nav>
-         
         </header>
         <main>{children}</main>
       </body>

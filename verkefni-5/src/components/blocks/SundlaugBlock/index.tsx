@@ -11,12 +11,12 @@ export const SundlaugBlockFragment = graphql(
           ...ResponsiveImageFragment
         }
       }
-        sundlaugLink {
-            ... on SundlaugRecord {
-            address
-            slug
-            }
+      sundlaugLink {
+        ... on SundlaugRecord {
+          address
+          slug
         }
+      }
     }
   `,
   [ResponsiveImageFragment],
@@ -32,16 +32,16 @@ export default function SundlaugBlock({ data }: Props) {
 
   return (
     <figure>
-        {/* Display title */}
-        <h2>{unmaskedData.title}</h2>
-        {/* Display address */}
-        <h3>{unmaskedData.sundlaugLink?.address}</h3>
-        {/* Display sundlaug link */}
-        {unmaskedData.sundlaugLink && (
-            <a href={`/sundlaug/${unmaskedData.sundlaugLink.slug}`} className="pill">
-                {"Skoða nánar"}
-            </a>
-            )}
+      {/* Display title */}
+      <h2>{unmaskedData.title}</h2>
+      {/* Display address */}
+      <h3>{unmaskedData.sundlaugLink?.address}</h3>
+      {/* Display sundlaug link */}
+      {unmaskedData.sundlaugLink && (
+        <a href={`/sundlaug/${unmaskedData.sundlaugLink.slug}`} className="pill">
+          {'Skoða nánar'}
+        </a>
+      )}
       {/* Display responsive image */}
       <ResponsiveImage data={unmaskedData.image.responsiveImage} />
     </figure>

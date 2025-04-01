@@ -77,7 +77,13 @@ const query = graphql(
       }
     }
   `,
-  [TagFragment, ImageBlockFragment, ImageGalleryBlockFragment, VideoBlockFragment, SundlaugBlockFragment],
+  [
+    TagFragment,
+    ImageBlockFragment,
+    ImageGalleryBlockFragment,
+    VideoBlockFragment,
+    SundlaugBlockFragment,
+  ],
 );
 
 /**
