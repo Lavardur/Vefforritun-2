@@ -1,12 +1,10 @@
 import ImageBlock, { ImageBlockFragment } from '@/components/blocks/ImageBlock';
 import { TagFragment } from '@/lib/datocms/commonFragments';
 import { executeQuery } from '@/lib/datocms/executeQuery';
-import { generateMetadataFn } from '@/lib/datocms/generateMetadataFn';
 import { graphql } from '@/lib/datocms/graphql';
 import { draftMode } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Image as DatoCMSImage } from 'react-datocms';
 
 const query = graphql(
   /* GraphQL */ `

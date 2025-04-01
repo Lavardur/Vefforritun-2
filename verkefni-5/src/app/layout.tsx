@@ -38,7 +38,7 @@ export default function RootLayout({
         <header>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1>Sundlaugar </h1>
-            <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
+            {/* <DraftModeToggler draftModeEnabled={draftMode().isEnabled} /> */}
             <ThemeToggler />
           </div>
           <nav>
@@ -47,9 +47,6 @@ export default function RootLayout({
             </a>
             <a className="navlink" href="/sundlaugar">
               🏊‍♂️ Sundlaugar
-            </a>
-            <a className="navlink" href="/sundlaug/alftaneslaug">
-              🏊‍♂️ Sundlaug
             </a>
           </nav>
         </header>

@@ -39,7 +39,7 @@ const query = graphql(
           ...TagFragment
         }
         title
-        _firstPublishedAt
+        _publishedAt
         structuredText {
           value
           blocks {
@@ -208,7 +208,7 @@ export default async function Page() {
           }
         }
       />
-      <footer>Published at {page._firstPublishedAt}</footer>
+      <footer>Published at {page._publishedAt}</footer>
     </>
   );
 }
