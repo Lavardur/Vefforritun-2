@@ -1,3 +1,9 @@
+"""Specifies how to filter Boolean fields"""
+input BooleanFilter {
+  """Search for records with an exact match"""
+  eq: BooleanType
+}
+
 """Represents `true` or `false` values."""
 scalar BooleanType
 
@@ -27,6 +33,44 @@ type ColorField {
   green: IntType!
   hex: String!
   red: IntType!
+}
+
+"""Specifies how to filter by creation datetime"""
+input CreatedAtFilter {
+  """
+  Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gt: DateTime
+
+  """
+  Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lt: DateTime
+
+  """
+  Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gte: DateTime
+
+  """
+  Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lte: DateTime
+
+  """
+  Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  eq: DateTime
+
+  """
+  Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  neq: DateTime
+
+  """
+  Filter records with the specified field defined (i.e. with any value) or not
+  """
+  exists: BooleanType
 }
 
 scalar CustomData
@@ -2377,6 +2421,21 @@ scalar IntType
 
 scalar ItemId
 
+"""Specifies how to filter by ID"""
+input ItemIdFilter {
+  """Search the record with the specified ID"""
+  eq: ItemId
+
+  """Exclude the record with the specified ID"""
+  neq: ItemId
+
+  """Search records with the specified IDs"""
+  in: [ItemId]
+
+  """Search records that do not have the specified IDs"""
+  notIn: [ItemId]
+}
+
 enum ItemStatus {
   draft
   updated
@@ -2384,6 +2443,14 @@ enum ItemStatus {
 }
 
 scalar JsonField
+
+"""Specifies how to filter JSON fields"""
+input JsonFilter {
+  """
+  Filter records with the specified field defined (i.e. with any value) or not
+  """
+  exists: BooleanType
+}
 
 scalar MetaTagAttributes
 
@@ -2402,16 +2469,18 @@ input OrientationFilter {
   neq: UploadOrientation
 }
 
-union PageModelStructuredTextBlocksField = ImageBlockRecord | ImageGalleryBlockRecord | VideoBlockRecord
+union PageModelStructuredTextBlocksField = ImageBlockRecord | ImageGalleryBlockRecord | SundlaugBlockRecord | VideoBlockRecord
 
 type PageModelStructuredTextField {
   blocks: [PageModelStructuredTextBlocksField!]!
   inlineBlocks: [String!]!
-  links: [PageRecord!]!
+  links: [PageModelStructuredTextLinksField!]!
   value: JsonField!
 }
 
-"""Record of type 📝 Page (page)"""
+union PageModelStructuredTextLinksField = PageRecord | SundlaugRecord
+
+"""Record of type 🏘️ Sundlaugar (page)"""
 type PageRecord implements RecordInterface {
   _createdAt: DateTime!
 
@@ -2438,8 +2507,53 @@ type PageRecord implements RecordInterface {
   title: String!
 }
 
+"""Specifies how to filter by publication datetime"""
+input PublishedAtFilter {
+  """
+  Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gt: DateTime
+
+  """
+  Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lt: DateTime
+
+  """
+  Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gte: DateTime
+
+  """
+  Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lte: DateTime
+
+  """
+  Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  eq: DateTime
+
+  """
+  Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  neq: DateTime
+
+  """
+  Filter records with the specified field defined (i.e. with any value) or not
+  """
+  exists: BooleanType
+}
+
 """The query root for this schema"""
 type Query {
+  """Returns meta information regarding a record collection"""
+  _allSundlaugsMeta(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+    filter: SundlaugModelFilter
+  ): CollectionMetadata!
+
   """Returns meta information regarding an assets collection"""
   _allUploadsMeta(
     """The locale to use to fetch the field's content"""
@@ -2457,6 +2571,25 @@ type Query {
     """
     fallbackLocales: [SiteLocale!]
   ): Site!
+
+  """Returns a collection of records"""
+  allSundlaugs(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+
+    """
+    If you want to fallback to a default translation when a translation has not been found
+    """
+    fallbackLocales: [SiteLocale!]
+
+    """Skip the first results"""
+    skip: IntType
+
+    """Limit the number of results"""
+    first: IntType = 20
+    filter: SundlaugModelFilter
+    orderBy: [SundlaugModelOrderBy] = [_updatedAt_DESC]
+  ): [SundlaugRecord!]!
 
   """Returns a collection of assets"""
   allUploads(
@@ -2487,6 +2620,19 @@ type Query {
     """
     fallbackLocales: [SiteLocale!]
   ): PageRecord
+
+  """Returns a specific record"""
+  sundlaug(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+
+    """
+    If you want to fallback to a default translation when a translation has not been found
+    """
+    fallbackLocales: [SiteLocale!]
+    filter: SundlaugModelFilter
+    orderBy: [SundlaugModelOrderBy] = [_updatedAt_DESC]
+  ): SundlaugRecord
 
   """Returns a specific asset"""
   upload(
@@ -2568,6 +2714,14 @@ type SeoField {
   twitterCard: String
 }
 
+"""Specifies how to filter SEO meta tags fields"""
+input SeoFilter {
+  """
+  Filter records with the specified field defined (i.e. with any value) or not
+  """
+  exists: BooleanType
+}
+
 type Site {
   favicon: FileField
   faviconMetaTags(
@@ -2591,10 +2745,179 @@ enum SiteLocale {
   en
 }
 
+"""Specifies how to filter Slug fields"""
+input SlugFilter {
+  """Search for records with an exact match"""
+  eq: String
+
+  """Exclude records with an exact match"""
+  neq: String
+
+  """Filter records that have one of the specified slugs"""
+  in: [String]
+
+  """Filter records that do have one of the specified slugs"""
+  notIn: [String]
+}
+
+"""Specifies how to filter by status"""
+input StatusFilter {
+  """Search the record with the specified status"""
+  eq: ItemStatus
+
+  """Exclude the record with the specified status"""
+  neq: ItemStatus
+
+  """Search records with the specified statuses"""
+  in: [ItemStatus]
+
+  """Search records without the specified statuses"""
+  notIn: [ItemStatus]
+}
+
+"""Specifies how to filter Single-line string fields"""
+input StringFilter {
+  """Filter records based on a regular expression"""
+  matches: StringMatchesFilter
+
+  """Exclude records based on a regular expression"""
+  notMatches: StringMatchesFilter
+
+  """
+  Filter records with the specified field set as blank (null or empty string)
+  """
+  isBlank: BooleanType
+
+  """
+  Filter records with the specified field present (neither null, nor empty string)
+  """
+  isPresent: BooleanType
+
+  """Search for records with an exact match"""
+  eq: String
+
+  """Exclude records with an exact match"""
+  neq: String
+
+  """Filter records that equal one of the specified values"""
+  in: [String]
+
+  """Filter records that do not equal one of the specified values"""
+  notIn: [String]
+
+  """
+  Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED]
+  """
+  exists: BooleanType
+}
+
 input StringMatchesFilter {
   pattern: String!
   caseSensitive: BooleanType = false
   regexp: BooleanType = true
+}
+
+"""Block of type 🏊 Sundlaug Block (sundlaug_block)"""
+type SundlaugBlockRecord implements RecordInterface {
+  _createdAt: DateTime!
+
+  """Editing URL"""
+  _editingUrl: String
+  _firstPublishedAt: DateTime
+  _isValid: BooleanType!
+  _modelApiKey: String!
+  _publicationScheduledAt: DateTime
+  _publishedAt: DateTime
+
+  """Generates SEO and Social card meta tags to be used in your frontend"""
+  _seoMetaTags(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+  ): [Tag!]!
+  _status: ItemStatus!
+  _unpublishingScheduledAt: DateTime
+  _updatedAt: DateTime!
+  id: ItemId!
+  image: ImageFileField!
+  sundlaugLink: SundlaugRecord!
+  title: String!
+}
+
+input SundlaugModelFilter {
+  _createdAt: CreatedAtFilter
+  id: ItemIdFilter
+  _firstPublishedAt: PublishedAtFilter
+  _publicationScheduledAt: PublishedAtFilter
+  _unpublishingScheduledAt: PublishedAtFilter
+  _publishedAt: PublishedAtFilter
+  _status: StatusFilter
+  _updatedAt: UpdatedAtFilter
+  _isValid: BooleanFilter
+  address: StringFilter
+  email: StringFilter
+  seoAnalysis: JsonFilter
+  seoSettingsSocial: SeoFilter
+  slug: SlugFilter
+  title: StringFilter
+  OR: [SundlaugModelFilter]
+  AND: [SundlaugModelFilter]
+}
+
+enum SundlaugModelOrderBy {
+  _createdAt_ASC
+  _createdAt_DESC
+  id_ASC
+  id_DESC
+  _firstPublishedAt_ASC
+  _firstPublishedAt_DESC
+  _publicationScheduledAt_ASC
+  _publicationScheduledAt_DESC
+  _unpublishingScheduledAt_ASC
+  _unpublishingScheduledAt_DESC
+  _publishedAt_ASC
+  _publishedAt_DESC
+  _status_ASC
+  _status_DESC
+  _updatedAt_ASC
+  _updatedAt_DESC
+  _isValid_ASC
+  _isValid_DESC
+  address_ASC
+  address_DESC
+  email_ASC
+  email_DESC
+  title_ASC
+  title_DESC
+}
+
+"""Record of type 🏊 Sundlaug (sundlaug)"""
+type SundlaugRecord implements RecordInterface {
+  _createdAt: DateTime!
+
+  """Editing URL"""
+  _editingUrl: String
+  _firstPublishedAt: DateTime
+  _isValid: BooleanType!
+  _modelApiKey: String!
+  _publicationScheduledAt: DateTime
+  _publishedAt: DateTime
+
+  """Generates SEO and Social card meta tags to be used in your frontend"""
+  _seoMetaTags(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+  ): [Tag!]!
+  _status: ItemStatus!
+  _unpublishingScheduledAt: DateTime
+  _updatedAt: DateTime!
+  address: String!
+  email: String
+  id: ItemId!
+  image: ImageBlockRecord
+  seoAnalysis: JsonField
+  seoSettingsSocial: SeoField
+  slug: String!
+  title: String!
 }
 
 type Tag {
@@ -2616,6 +2939,44 @@ input TypeFilter {
 
   """Search uploads without the specified types"""
   notIn: [UploadType]
+}
+
+"""Specifies how to filter by update datetime"""
+input UpdatedAtFilter {
+  """
+  Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gt: DateTime
+
+  """
+  Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lt: DateTime
+
+  """
+  Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  gte: DateTime
+
+  """
+  Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument.
+  """
+  lte: DateTime
+
+  """
+  Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  eq: DateTime
+
+  """
+  Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument.
+  """
+  neq: DateTime
+
+  """
+  Filter records with the specified field defined (i.e. with any value) or not
+  """
+  exists: BooleanType
 }
 
 """Specifies how to filter by default alt"""

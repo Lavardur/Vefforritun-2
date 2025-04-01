@@ -5,6 +5,7 @@ import ImageGalleryBlock, {
 } from '@/components/blocks/ImageGalleryBlock';
 import { VideoBlockFragment } from '@/components/blocks/VideoBlock';
 import { TagFragment } from '@/lib/datocms/commonFragments';
+import SundlaugBlock, { SundlaugBlockFragment } from '@/components/blocks/SundlaugBlock';
 import { executeQuery } from '@/lib/datocms/executeQuery';
 import { generateMetadataFn } from '@/lib/datocms/generateMetadataFn';
 import { graphql } from '@/lib/datocms/graphql';
@@ -55,6 +56,9 @@ const query = graphql(
             ... on VideoBlockRecord {
               ...VideoBlockFragment
             }
+            ... on SundlaugBlockRecord {
+              ...SundlaugBlockFragment
+            }
           }
           links {
             ... on RecordInterface {
@@ -64,12 +68,16 @@ const query = graphql(
             ... on PageRecord {
               title
             }
+            ... on SundlaugRecord {
+              title
+              slug
+            }
           }
         }
       }
     }
   `,
-  [TagFragment, ImageBlockFragment, ImageGalleryBlockFragment, VideoBlockFragment],
+  [TagFragment, ImageBlockFragment, ImageGalleryBlockFragment, VideoBlockFragment, SundlaugBlockFragment],
 );
 
 /**
@@ -136,6 +144,9 @@ export default async function Page() {
               case 'ImageGalleryBlockRecord': {
                 return <ImageGalleryBlock data={record} />;
               }
+              case 'SundlaugBlockRecord': {
+                return <SundlaugBlock data={record} />;
+              }
               default: {
                 return null;
               }
@@ -152,6 +163,13 @@ export default async function Page() {
               case 'PageRecord': {
                 return (
                   <Link href="/" className="pill">
+                    {record.title}
+                  </Link>
+                );
+              }
+              case 'SundlaugRecord': {
+                return (
+                  <Link href={`/sundlaug/${record.slug}`} className="pill">
                     {record.title}
                   </Link>
                 );
