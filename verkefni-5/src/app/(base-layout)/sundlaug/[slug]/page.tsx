@@ -1,10 +1,13 @@
-import { executeQuery } from '@/lib/datocms/executeQuery';
+import ImageBlock, { ImageBlockFragment } from '@/components/blocks/ImageBlock';
 import { TagFragment } from '@/lib/datocms/commonFragments';
+import { executeQuery } from '@/lib/datocms/executeQuery';
 import { generateMetadataFn } from '@/lib/datocms/generateMetadataFn';
 import { graphql } from '@/lib/datocms/graphql';
 import { draftMode } from 'next/headers';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Image as DatoCMSImage } from 'react-datocms';
+
 const query = graphql(
   /* GraphQL */ `
     query SundlaugQuery($slug: String!) {
@@ -15,10 +18,15 @@ const query = graphql(
         title
         address
         email
+        content {
+          ... on ImageBlockRecord {
+            ...ImageBlockFragment
+          }
+        }
       }
     }
   `,
-  [TagFragment],
+  [TagFragment, ImageBlockFragment],
 );
 
 export default async function SundlaugPage({ params }: { params: { slug: string } }) {
@@ -43,10 +51,24 @@ export default async function SundlaugPage({ params }: { params: { slug: string 
       <div className="sundlaug-detail">
         <h1>{sundlaug.title}</h1>
 
+        {/* Display the image if it exists */}
+        {sundlaug.content && (
+          <div className="sundlaug-image">
+            <ImageBlock data={sundlaug.content} />
+          </div>
+        )}
+
         <div className="info-item">
           <h3>Staðsetning</h3>
           <p>{sundlaug.address}</p>
         </div>
+
+        {sundlaug.email && (
+          <div className="info-item">
+            <h3>Netfang</h3>
+            <p><a href={`mailto:${sundlaug.email}`}>{sundlaug.email}</a></p>
+          </div>
+        )}
 
         <div className="back-link">
           <Link href="/sundlaugar">← Til baka í sundlaugalista</Link>

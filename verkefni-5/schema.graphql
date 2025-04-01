@@ -2911,9 +2911,9 @@ type SundlaugRecord implements RecordInterface {
   _unpublishingScheduledAt: DateTime
   _updatedAt: DateTime!
   address: String!
+  content: ImageBlockRecord
   email: String
   id: ItemId!
-  image: ImageBlockRecord
   seoAnalysis: JsonField
   seoSettingsSocial: SeoField
   slug: String!
