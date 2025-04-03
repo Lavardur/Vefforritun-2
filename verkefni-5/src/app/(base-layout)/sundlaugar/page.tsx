@@ -1,9 +1,5 @@
 import HeadingWithAnchorLink from '@/components/HeadingWithAnchorLink';
 import ImageBlock, { ImageBlockFragment } from '@/components/blocks/ImageBlock';
-import ImageGalleryBlock, {
-  ImageGalleryBlockFragment,
-} from '@/components/blocks/ImageGalleryBlock';
-import { VideoBlockFragment } from '@/components/blocks/VideoBlock';
 import { TagFragment } from '@/lib/datocms/commonFragments';
 import SundlaugBlock, { SundlaugBlockFragment } from '@/components/blocks/SundlaugBlock';
 import { executeQuery } from '@/lib/datocms/executeQuery';
@@ -22,7 +18,6 @@ import { StructuredText, renderNodeRule, toNextMetadata } from 'react-datocms';
  * Components and imported libraries, and only include them in the client bundle
  * when they're needed.
  */
-const VideoBlock = dynamic(() => import('@/components/blocks/VideoBlock'));
 const Code = dynamic(() => import('@/components/Code'));
 
 /**
@@ -50,12 +45,6 @@ const query = graphql(
             ... on ImageBlockRecord {
               ...ImageBlockFragment
             }
-            ... on ImageGalleryBlockRecord {
-              ...ImageGalleryBlockFragment
-            }
-            ... on VideoBlockRecord {
-              ...VideoBlockFragment
-            }
             ... on SundlaugBlockRecord {
               ...SundlaugBlockFragment
             }
@@ -80,8 +69,6 @@ const query = graphql(
   [
     TagFragment,
     ImageBlockFragment,
-    ImageGalleryBlockFragment,
-    VideoBlockFragment,
     SundlaugBlockFragment,
   ],
 );
@@ -141,14 +128,8 @@ export default async function Page() {
            */
           ({ record }) => {
             switch (record.__typename) {
-              case 'VideoBlockRecord': {
-                return <VideoBlock data={record} />;
-              }
               case 'ImageBlockRecord': {
                 return <ImageBlock data={record} />;
-              }
-              case 'ImageGalleryBlockRecord': {
-                return <ImageGalleryBlock data={record} />;
               }
               case 'SundlaugBlockRecord': {
                 return <SundlaugBlock data={record} />;

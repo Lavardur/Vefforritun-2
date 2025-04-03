@@ -39,7 +39,7 @@ export default function RootLayout({
         <header>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1>Sundlaugar </h1>
-            {/* <DraftModeToggler draftModeEnabled={draftMode().isEnabled} /> */}
+            <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
             <ThemeToggler />
           </div>
           <nav>
