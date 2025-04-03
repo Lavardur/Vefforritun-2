@@ -2854,6 +2854,8 @@ input SundlaugModelFilter {
   _updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   address: StringFilter
+  afgreidslutimi: TextFilter
+  description: TextFilter
   email: StringFilter
   seoAnalysis: JsonFilter
   seoSettingsSocial: SeoFilter
@@ -2911,7 +2913,15 @@ type SundlaugRecord implements RecordInterface {
   _unpublishingScheduledAt: DateTime
   _updatedAt: DateTime!
   address: String!
+  afgreidslutimi(
+    """Process content as markdown"""
+    markdown: Boolean
+  ): String
   content: ImageBlockRecord
+  description(
+    """Process content as markdown"""
+    markdown: Boolean
+  ): String
   email: String
   id: ItemId!
   seoAnalysis: JsonField
@@ -2924,6 +2934,30 @@ type Tag {
   attributes: MetaTagAttributes
   content: String
   tag: String!
+}
+
+"""Specifies how to filter text fields"""
+input TextFilter {
+  """Filter records based on a regular expression"""
+  matches: StringMatchesFilter
+
+  """Exclude records based on a regular expression"""
+  notMatches: StringMatchesFilter
+
+  """
+  Filter records with the specified field set as blank (null or empty string)
+  """
+  isBlank: BooleanType
+
+  """
+  Filter records with the specified field present (neither null, nor empty string)
+  """
+  isPresent: BooleanType
+
+  """
+  Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED]
+  """
+  exists: BooleanType
 }
 
 """Specifies how to filter by upload type"""

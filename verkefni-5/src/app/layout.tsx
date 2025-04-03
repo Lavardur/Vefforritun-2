@@ -7,7 +7,7 @@ import { draftMode } from 'next/headers';
 import Link from 'next/link';
 import { toNextMetadata } from 'react-datocms';
 
-import './global.css';
+import './global.scss';
 
 const query = graphql(
   /* GraphQL */ `
@@ -30,9 +30,9 @@ export async function generateMetadata() {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
