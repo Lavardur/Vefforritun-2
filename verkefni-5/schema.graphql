@@ -2469,7 +2469,7 @@ input OrientationFilter {
   neq: UploadOrientation
 }
 
-union PageModelStructuredTextBlocksField = ImageBlockRecord | ImageGalleryBlockRecord | SundlaugBlockRecord | VideoBlockRecord
+union PageModelStructuredTextBlocksField = ImageBlockRecord | SundlaugBlockRecord
 
 type PageModelStructuredTextField {
   blocks: [PageModelStructuredTextBlocksField!]!
