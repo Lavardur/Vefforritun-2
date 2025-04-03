@@ -35,10 +35,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function getTheme() {
+                  const savedTheme = localStorage.getItem('theme');
+                  if (savedTheme) return savedTheme;
+                  
+                  return window.matchMedia('(prefers-color-scheme: dark)').matches 
+                    ? 'dark' 
+                    : 'light';
+                }
+                
+                document.documentElement.setAttribute('data-theme', getTheme());
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <header>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1>Sundlaugar </h1>
+            <h1>Sundlaugar</h1>
             <DraftModeToggler draftModeEnabled={draftMode().isEnabled} />
             <ThemeToggler />
           </div>

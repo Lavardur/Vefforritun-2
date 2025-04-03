@@ -56,39 +56,43 @@ export default async function SundlaugPage({ params }: { params: { slug: string 
         
         <h1>{sundlaug.title}</h1>
 
-        {/* Display the image if it exists */}
-        {sundlaug.content && (
-          <div className={styles.imageContainer}>
-            <ImageBlock data={sundlaug.content} />
-          </div>
-        )}
+        <div className={styles.contentLayout}>
+          {/* Left column: Pool information */}
+          <div className={styles.infoColumn}>
+            <div className={styles.infoItem}>
+              <h3>Staðsetning</h3>
+              <p>{sundlaug.address}</p>
+            </div>
 
-        <div className={styles.infoItem}>
-          <h3>Staðsetning</h3>
-          <p>{sundlaug.address}</p>
+            {sundlaug.email && (
+              <div className={styles.infoItem}>
+                <h3>Netfang</h3>
+                <p><a href={`mailto:${sundlaug.email}`}>{sundlaug.email}</a></p>
+              </div>
+            )}
+
+            {sundlaug.description && (
+              <div className={styles.infoItem}>
+                <h3>Lýsing</h3>
+                <div dangerouslySetInnerHTML={{ __html: sundlaug.description }} />
+              </div>
+            )}
+
+            {sundlaug.afgreidslutimi && (
+              <div className={styles.infoItem}>
+                <h3>Afgreiðslutími</h3>
+                <div dangerouslySetInnerHTML={{ __html: sundlaug.afgreidslutimi }} />
+              </div>
+            )}
+          </div>
+
+          {/* Right column: Image */}
+          {sundlaug.content && (
+            <div className={styles.imageColumn}>
+              <ImageBlock data={sundlaug.content} />
+            </div>
+          )}
         </div>
-
-        {sundlaug.email && (
-          <div className={styles.infoItem}>
-            <h3>Netfang</h3>
-            <p><a href={`mailto:${sundlaug.email}`}>{sundlaug.email}</a></p>
-          </div>
-        )}
-
-        {sundlaug.description && (
-          <div className="sundlaug-description">
-            <h3>Lýsing</h3>
-            <div dangerouslySetInnerHTML={{ __html: sundlaug.description }} />
-          </div>
-        )}
-
-        {sundlaug.afgreidslutimi && (
-          <div className="sundlaug-afgreidslutimi">
-            <h3>Afgreiðslutími</h3>
-            <div dangerouslySetInnerHTML={{ __html: sundlaug.afgreidslutimi }} />
-          </div>
-        )}
-
       </div>
     );
   } catch (error) {
