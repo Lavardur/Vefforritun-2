@@ -106,6 +106,29 @@ export type LimitOffset = {
 
 export type Id = number & { __brand: 'id' };
 
+export type User = {
+  id: number;
+  username: string;
+  isAdmin: boolean;
+};
+
+export type LoginCredentials = {
+  username: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  message: string;
+  token: string;
+};
+
+export type AuthState = {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+};
+
 export interface IPost {
   getPosts(limitOffset: LimitOffset): Promise<Result<Paginated<Post>>>;
   getPostById(id: Id): Promise<Result<Post | null>>;
@@ -135,4 +158,10 @@ export interface ITag {
   createTag(tag: TagToCreate): Promise<Result<TagCreateResult>>;
   updateTag(id: Id, tag: TagToCreate): Promise<Result<Tag | null>>;
   deleteTag(id: Id): Promise<Result<boolean | null>>;
+}
+
+export interface IAuth {
+  login(credentials: LoginCredentials): Promise<Result<LoginResponse | null>>;
+  logout(): Promise<Result<boolean>>;
+  getUser(): Promise<Result<User | null>>;
 }
