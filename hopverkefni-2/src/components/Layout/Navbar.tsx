@@ -10,7 +10,10 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const isActiveLink = (path: string) => {
-    return pathname === path;
+    if (path === '/') {
+      return pathname === path;
+    }
+    return pathname?.startsWith(path) ?? false;
   };
 
   return (
@@ -38,6 +41,12 @@ const Navbar = () => {
             className={`${styles.navLink} ${isActiveLink('/categories') ? styles.active : ''}`}
           >
             Categories
+          </Link>
+          <Link 
+            href="/tags" 
+            className={`${styles.navLink} ${isActiveLink('/tags') ? styles.active : ''}`}
+          >
+            Tags
           </Link>
         </div>
         

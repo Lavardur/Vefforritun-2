@@ -7,7 +7,7 @@ export default function PostsPage() {
     <div className={styles.postsPage}>
       <div className={styles.container}>
         <h1 className={styles.title}>All Posts</h1>
-        <Posts title="All Posts" />
+        <Posts />
       </div>
     </div>
   );

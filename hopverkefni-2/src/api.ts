@@ -1,4 +1,4 @@
-import { Paginated, Post, LoginCredentials, LoginResponse, Result, User } from './types';
+import { Paginated, Post, LoginCredentials, LoginResponse, Result, User, Category, Tag } from './types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:8000';
 
@@ -70,6 +70,31 @@ export class PostsApi extends Api {
   async getPostById(id: number): Promise<Post | null> {
     const url = `${BASE_URL}/posts/${id}`;
     return await this.fetchFromApi<Post>(url);
+  }
+}
+
+export class CategoriesApi extends Api {
+  async getCategories(): Promise<Paginated<Category> | null> {
+    const url = `${BASE_URL}/categories`;
+    return await this.fetchFromApi<Paginated<Category>>(url);
+
+  }
+
+  async getCategoryById(id: number): Promise<Category | null> {
+    const url = `${BASE_URL}/categories/${id}`;
+    return await this.fetchFromApi<Category>(url);
+  }
+}
+
+export class TagsApi extends Api {
+  async getTags(): Promise<Paginated<Tag> | null> {
+    const url = `${BASE_URL}/tags`;
+    return await this.fetchFromApi<Paginated<Tag>>(url);
+  }
+
+  async getTagById(id: number): Promise<Tag | null> {
+    const url = `${BASE_URL}/tags/${id}`;
+    return await this.fetchFromApi<Tag>(url);
   }
 }
 

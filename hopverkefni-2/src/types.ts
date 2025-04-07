@@ -15,9 +15,13 @@ export type Post = {
   id: number;
   title: string;
   content: string;
+  createdAt: string;
+  updatedAt: string;
   authorId: number;
   categoryIds: number[];
+  categories: Category[];
   tagIds: number[];
+  tags: Tag[];
   likes: number;
   comments: Comment[];
 };
