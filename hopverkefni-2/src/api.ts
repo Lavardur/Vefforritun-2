@@ -62,8 +62,8 @@ export class Api {
 }
 
 export class PostsApi extends Api {
-  async getPosts(): Promise<Paginated<Post> | null> {
-    const url = BASE_URL + '/posts';
+  async getPosts(limit: number = 10, page: number = 1): Promise<Paginated<Post> | null> {
+    const url = `${BASE_URL}/posts?limit=${limit}&page=${page}`;
     return await this.fetchFromApi<Paginated<Post>>(url);
   }
 
