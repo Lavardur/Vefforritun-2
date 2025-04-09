@@ -7,11 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Category, Tag } from '@/types';
 import styles from './CreatePost.module.css';
 
-interface CreatePostProps {
-  user: any; // You should define a proper User type
-}
-
-export default function CreatePost({ user }: CreatePostProps) {
+export default function CreatePost() {
   const router = useRouter();
   const { authState } = useAuth();
   const [title, setTitle] = useState('');

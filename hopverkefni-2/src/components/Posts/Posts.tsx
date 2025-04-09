@@ -1,7 +1,5 @@
 import { PostsApi } from '@/api';
-import { Post } from '@/types';
 import styles from './Posts.module.css';
-import Link from 'next/link';
 import ClientPaginationWrapper from '../Common/ClientPaginationWrapper';
 import PostCard from './PostCard';
 
@@ -23,7 +21,7 @@ export default async function Posts({
   
   // Filter results if needed
   let filteredPosts = result?.data || [];
-  let totalPages = result?.pagination ? Math.ceil(result.pagination.total / 10) : 1;
+  const totalPages = result?.pagination ? Math.ceil(result.pagination.total / 10) : 1;
   
   if (categoryId) {
     filteredPosts = filteredPosts.filter(post => post.categoryIds?.includes(categoryId));

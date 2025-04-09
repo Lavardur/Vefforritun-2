@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthApi } from '../api';
-import { AuthState, LoginCredentials, User } from '../types';
+import { AuthState, LoginCredentials} from '../types';
 
 type AuthContextType = {
   authState: AuthState;

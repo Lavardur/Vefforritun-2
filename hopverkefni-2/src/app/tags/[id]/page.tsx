@@ -7,52 +7,54 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const tagId = parseInt(params.id);
-  
+
   if (isNaN(tagId)) {
     return {
       title: 'Tag Not Found',
       description: 'The requested tag could not be found.'
     };
   }
-  
+
   const api = new TagsApi();
   const tag = await api.getTagById(tagId);
-  
+
   if (!tag) {
     return {
       title: 'Tag Not Found',
       description: 'The requested tag could not be found.'
     };
   }
-  
+
   return {
     title: `Posts tagged with #${tag.name}`,
     description: `Browse all posts with the tag #${tag.name}`
   };
 }
 
-export default async function TagDetailPage({ params }: Props) {
+export default async function TagDetailPage(props: Props) {
+  const params = await props.params;
   const tagId = parseInt(params.id);
-  
+
   if (isNaN(tagId)) {
     notFound();
   }
-  
+
   const api = new TagsApi();
   const tag = await api.getTagById(tagId);
-  
+
   if (!tag) {
     notFound();
   }
-  
+
   return (
     <div className={styles.tagDetail}>
       <div className={styles.container}>

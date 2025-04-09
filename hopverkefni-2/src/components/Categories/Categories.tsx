@@ -31,11 +31,6 @@ export default async function Categories() {
                 className={styles.categoryCard}
               >
                 <h2 className={styles.categoryTitle}>{category.name}</h2>
-                {category.description && (
-                  <p className={styles.categoryDescription}>
-                    {category.description}
-                  </p>
-                )}
               </Link>
             ))}
           </div>
