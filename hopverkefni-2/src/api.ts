@@ -1,4 +1,4 @@
-import { Paginated, Post, LoginCredentials, LoginResponse, Result, User, Category, Tag } from './types';
+import { Paginated, Post, PostToCreate, LoginCredentials, LoginResponse, Result, User, Category, Tag } from './types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:8000';
 
@@ -25,7 +25,7 @@ export class Api {
         } catch {
           // If it's not valid JSON, the raw text is already logged above
         }
-      } catch (e) {
+      } catch (_e) {
         console.error('Could not read error response');
       }
       

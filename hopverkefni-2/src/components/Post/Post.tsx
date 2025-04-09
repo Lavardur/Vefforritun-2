@@ -1,4 +1,3 @@
-import type { Post as PostType } from "@/types";
 import styles from "./Post.module.css";
 import Link from "next/link";
 import { PostsApi } from "@/api";

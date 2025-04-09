@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   return {
     title: `Category: ${category.name}`,
-    description: category.description || `Browse all posts in ${category.name}`
+    description: `Browse all posts in ${category.name}`
   };
 }
 
@@ -55,10 +55,6 @@ export default async function CategoryDetailPage({ params }: Props) {
   return (
     <div className={styles.postsPage}>
       <div className={styles.container}>
-        <h1 className={styles.title}>{category.name}</h1>
-        {category.description && (
-          <p className={styles.description}>{category.description}</p>
-        )}
         <Posts 
           title={`Posts in ${category.name}`} 
           categoryId={categoryId} 

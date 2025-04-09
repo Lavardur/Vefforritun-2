@@ -4,10 +4,21 @@ export type Result<Ok, Err = Error> =
 
 export type UiState = 'initial' | 'loading' | 'error' | 'data' | 'empty';
 
-export type Paginated<T> = {
-  data: T[];
+export type Pagination = {
   total: number;
   limit: number;
+  page: number;
+  totalPages: number;
+  offset: number;
+};
+
+export type Paginated<T> = {
+  data: T[];
+  pagination: Pagination;
+  total: number;
+  limit: number;
+  page: number;
+  totalPages: number;
   offset: number;
 };
 
