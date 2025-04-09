@@ -1,6 +1,13 @@
 import React from 'react';
-import styles from './page.module.css';
 import Tags from '@/components/Tags/Tags';
+import styles from './page.module.css';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'All Tags',
+  description: 'Browse posts by tag'
+};
+
 export default function TagsPage() {
   return (
     <div className={styles.postsPage}>

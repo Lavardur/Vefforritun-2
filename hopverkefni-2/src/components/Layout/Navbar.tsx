@@ -48,6 +48,9 @@ const Navbar = () => {
           >
             Tags
           </Link>
+          <Link href="/posts/new" className={styles.createButton}>
+            Create Post
+          </Link>
         </div>
         
         <UserMenu />

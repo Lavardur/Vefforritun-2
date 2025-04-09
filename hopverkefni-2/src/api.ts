@@ -86,30 +86,120 @@ export class PostsApi extends Api {
     const url = `${BASE_URL}/posts/${id}`;
     return await this.fetchFromApi<Post>(url);
   }
+
+  async createPost(postData: PostToCreate): Promise<{ post: Post } | null> {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      console.error('No authentication token found');
+      return null;
+    }
+    
+    const url = `${BASE_URL}/posts`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.getAuthHeaders(token),
+        body: JSON.stringify(postData),
+        cache: 'no-store' // Don't cache POST requests
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Failed to create post:', errorText);
+        return null;
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating post:', error);
+      return null;
+    }
+  }
 }
 
 export class CategoriesApi extends Api {
   async getCategories(): Promise<Paginated<Category> | null> {
     const url = `${BASE_URL}/categories`;
-    return await this.fetchFromApi<Paginated<Category>>(url);
-
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return null;
+    }
   }
-
+  
   async getCategoryById(id: number): Promise<Category | null> {
     const url = `${BASE_URL}/categories/${id}`;
-    return await this.fetchFromApi<Category>(url);
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 },
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error fetching category with ID ${id}:`, error);
+      return null;
+    }
   }
 }
 
 export class TagsApi extends Api {
   async getTags(): Promise<Paginated<Tag> | null> {
     const url = `${BASE_URL}/tags`;
-    return await this.fetchFromApi<Paginated<Tag>>(url);
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      return null;
+    }
   }
-
+  
   async getTagById(id: number): Promise<Tag | null> {
     const url = `${BASE_URL}/tags/${id}`;
-    return await this.fetchFromApi<Tag>(url);
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 },
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error fetching tag with ID ${id}:`, error);
+      return null;
+    }
   }
 }
 
