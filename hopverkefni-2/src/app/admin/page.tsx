@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
 import styles from './page.module.css';

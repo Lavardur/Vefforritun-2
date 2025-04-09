@@ -1,4 +1,4 @@
-import { Paginated, Post, LoginCredentials, LoginResponse, Result, User } from './types';
+import { Paginated, Post, LoginCredentials, LoginResponse, Result, User, Category, Tag } from './types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:8000';
 
@@ -62,14 +62,142 @@ export class Api {
 }
 
 export class PostsApi extends Api {
-  async getPosts(): Promise<Paginated<Post> | null> {
-    const url = BASE_URL + '/posts';
-    return await this.fetchFromApi<Paginated<Post>>(url);
+  async getPosts(limit: number = 10, page: number = 1): Promise<Paginated<Post> | null> {
+    const url = `${BASE_URL}/posts?limit=${limit}&page=${page}`;
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      return null;
+    }
   }
 
   async getPostById(id: number): Promise<Post | null> {
     const url = `${BASE_URL}/posts/${id}`;
     return await this.fetchFromApi<Post>(url);
+  }
+
+  async createPost(postData: PostToCreate, token: string): Promise<{ post: Post } | null> {
+    if (!token) {
+      console.error('No authentication token provided');
+      return null;
+    }
+    
+    const url = `${BASE_URL}/posts`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.getAuthHeaders(token),
+        body: JSON.stringify(postData),
+        cache: 'no-store' // Don't cache POST requests
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Failed to create post:', errorText);
+        return null;
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating post:', error);
+      return null;
+    }
+  }
+}
+
+export class CategoriesApi extends Api {
+  async getCategories(): Promise<Paginated<Category> | null> {
+    const url = `${BASE_URL}/categories`;
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return null;
+    }
+  }
+  
+  async getCategoryById(id: number): Promise<Category | null> {
+    const url = `${BASE_URL}/categories/${id}`;
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 },
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error fetching category with ID ${id}:`, error);
+      return null;
+    }
+  }
+}
+
+export class TagsApi extends Api {
+  async getTags(): Promise<Paginated<Tag> | null> {
+    const url = `${BASE_URL}/tags`;
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      return null;
+    }
+  }
+  
+  async getTagById(id: number): Promise<Tag | null> {
+    const url = `${BASE_URL}/tags/${id}`;
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 },
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error fetching tag with ID ${id}:`, error);
+      return null;
+    }
   }
 }
 

@@ -1,0 +1,82 @@
+.tagDetail {
+  padding: 3rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.breadcrumbs {
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.breadcrumbs a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.tagHeader {
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background-color: #f1f1f1;
+  border-radius: 50px;
+}
+
+.postsSection {
+  margin-bottom: 3rem;
+}
+
+.backLink {
+  margin-top: 2rem;
+}
+
+.backLink a {
+  color: #3498db;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.backLink a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.loading {
+  text-align: center;
+  padding: 5rem 0;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #ffeeee;
+  color: #e74c3c;
+  margin: 2rem 0;
+}
