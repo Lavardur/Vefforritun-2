@@ -1,80 +1,64 @@
-'use client';
-
 import { PostsApi } from '@/api';
-import { Post, UiState, Paginated } from '@/types';
-import { useEffect, useState } from 'react';
+import { Post } from '@/types';
 import styles from './Posts.module.css';
 import Link from 'next/link';
+import ClientPaginationWrapper from '../Common/ClientPaginationWrapper';
+import PostCard from './PostCard';
 
 interface PostsProps {
   categoryId?: number;
   tagId?: number;
   title?: string;
+  page?: number;
 }
 
-export default function Posts({ title, categoryId, tagId }: PostsProps) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [uiState, setUiState] = useState<UiState>('loading');
-
-  useEffect(() => {
-    async function fetchPosts() {
-      setUiState('loading');
-      const api = new PostsApi();
-      
-      const result = await api.getPosts();
-
-      if (!result) {
-        setUiState('error');
-        return;
-      }
-      
-      if (categoryId) {
-        result.data = result.data.filter(post => post.categoryIds.includes(categoryId));
-      } else if (tagId) {
-        result.data = result.data.filter(post => post.tagIds.includes(tagId));
-      }
-
-      if (result.data.length === 0) {
-        setUiState('empty');
-      } else {
-        setPosts(result.data);
-        setUiState('data');
-      }
-    }
-
-    fetchPosts();
-  }, []);
-
+export default async function Posts({ 
+  title = "Latest Posts", 
+  categoryId, 
+  tagId,
+  page = 1 
+}: PostsProps) {
+  const api = new PostsApi();
+  const result = await api.getPosts(10, page);
+  
+  // Filter results if needed
+  let filteredPosts = result?.data || [];
+  let totalPosts = result?.pagination?.total || 0;
+  
+  if (categoryId) {
+    filteredPosts = filteredPosts.filter(post => post.categoryIds.includes(categoryId));
+  } else if (tagId) {
+    filteredPosts = filteredPosts.filter(post => post.tagIds.includes(tagId));
+  }
+  
+  const hasData = filteredPosts.length > 0;
+  
   return (
     <main className={styles.main}>
       <div className={styles.container}>
         <h1 className={styles.title}>{title}</h1>
 
-        {uiState === 'loading' && (
-          <div className={styles.loading}>Sæki flokka...</div>
+        {!result && (
+          <div className={styles.error}>Failed to load posts</div>
         )}
 
-        {uiState === 'error' && (
-          <div className={styles.error}>Villa við að sækja flokka</div>
+        {result && !hasData && (
+          <div className={styles.empty}>No posts found</div>
         )}
 
-        {uiState === 'empty' && (
-          <div className={styles.empty}>Engir flokkar fundust</div>
-        )}
-
-        {uiState === 'data' && (
-          <div className={styles.categoryGrid}>
-            {posts.map((post) => (
-                <Link 
-                href={`/posts/${post.id}`} 
-                key={post.id}
-                className={styles.categoryCard}
-                >
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-                </Link>
-            ))}
-          </div>
+        {hasData && (
+          <>
+            <div className={styles.postsGrid}>
+              {filteredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+            <ClientPaginationWrapper 
+              currentPage={page} 
+              totalPages={Math.ceil(totalPosts / 10)}
+              basePath={categoryId ? `/categories/${categoryId}` : tagId ? `/tags/${tagId}` : '/posts'} 
+            />
+          </>
         )}
       </div>
     </main>
