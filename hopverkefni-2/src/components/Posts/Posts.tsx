@@ -23,12 +23,12 @@ export default async function Posts({
   
   // Filter results if needed
   let filteredPosts = result?.data || [];
-  let totalPosts = result?.pagination?.total || 0;
+  let totalPages = result?.pagination ? Math.ceil(result.pagination.total / 10) : 1;
   
   if (categoryId) {
-    filteredPosts = filteredPosts.filter(post => post.categoryIds.includes(categoryId));
+    filteredPosts = filteredPosts.filter(post => post.categoryIds?.includes(categoryId));
   } else if (tagId) {
-    filteredPosts = filteredPosts.filter(post => post.tagIds.includes(tagId));
+    filteredPosts = filteredPosts.filter(post => post.tagIds?.includes(tagId));
   }
   
   const hasData = filteredPosts.length > 0;
@@ -53,11 +53,13 @@ export default async function Posts({
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
-            <ClientPaginationWrapper 
-              currentPage={page} 
-              totalPages={Math.ceil(totalPosts / 10)}
-              basePath={categoryId ? `/categories/${categoryId}` : tagId ? `/tags/${tagId}` : '/posts'} 
-            />
+            {totalPages > 1 && (
+              <ClientPaginationWrapper 
+                currentPage={page} 
+                totalPages={totalPages}
+                basePath={categoryId ? `/categories/${categoryId}` : tagId ? `/tags/${tagId}` : '/posts'} 
+              />
+            )}
           </>
         )}
       </div>

@@ -64,7 +64,22 @@ export class Api {
 export class PostsApi extends Api {
   async getPosts(limit: number = 10, page: number = 1): Promise<Paginated<Post> | null> {
     const url = `${BASE_URL}/posts?limit=${limit}&page=${page}`;
-    return await this.fetchFromApi<Paginated<Post>>(url);
+    
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      return null;
+    }
   }
 
   async getPostById(id: number): Promise<Post | null> {
