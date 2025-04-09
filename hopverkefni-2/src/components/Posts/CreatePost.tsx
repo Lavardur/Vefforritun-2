@@ -3,15 +3,17 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PostsApi, CategoriesApi, TagsApi } from '@/api';
-import { User, Category, Tag } from '@/types';
+import { useAuth } from '@/contexts/AuthContext';
+import { Category, Tag } from '@/types';
 import styles from './CreatePost.module.css';
 
 interface CreatePostProps {
-  user: User | null;
+  user: any; // You should define a proper User type
 }
 
 export default function CreatePost({ user }: CreatePostProps) {
   const router = useRouter();
+  const { authState } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
@@ -26,34 +28,34 @@ export default function CreatePost({ user }: CreatePostProps) {
     async function fetchData() {
       const categoriesApi = new CategoriesApi();
       const tagsApi = new TagsApi();
-      
+
       const categoriesResult = await categoriesApi.getCategories();
       const tagsResult = await tagsApi.getTags();
-      
+
       if (categoriesResult?.data) {
         setCategories(categoriesResult.data);
       }
-      
+
       if (tagsResult?.data) {
         setTags(tagsResult.data);
       }
     }
-    
+
     fetchData();
   }, []);
 
   const handleCategoryChange = (categoryId: number) => {
-    setSelectedCategories(prev => 
-      prev.includes(categoryId) 
-        ? prev.filter(id => id !== categoryId) 
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
   };
 
   const handleTagChange = (tagId: number) => {
-    setSelectedTags(prev => 
-      prev.includes(tagId) 
-        ? prev.filter(id => id !== tagId) 
+    setSelectedTags((prev) =>
+      prev.includes(tagId)
+        ? prev.filter((id) => id !== tagId)
         : [...prev, tagId]
     );
   };
@@ -62,22 +64,26 @@ export default function CreatePost({ user }: CreatePostProps) {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
-    
-    if (!user) {
+
+    if (!authState.token) {
       setError('You must be logged in to create a post');
       setIsSubmitting(false);
       return;
     }
-    
+
     try {
       const postsApi = new PostsApi();
-      const result = await postsApi.createPost({
-        title,
-        content,
-        categoryIds: selectedCategories.length > 0 ? selectedCategories : undefined,
-        tagIds: selectedTags.length > 0 ? selectedTags : undefined
-      });
-      
+      const result = await postsApi.createPost(
+        {
+          title,
+          content,
+          categoryIds:
+            selectedCategories.length > 0 ? selectedCategories : undefined,
+          tagIds: selectedTags.length > 0 ? selectedTags : undefined,
+        },
+        authState.token // Pass the token from auth context
+      );
+
       if (result && result.post) {
         router.push(`/posts/${result.post.id}`);
       } else {
@@ -94,14 +100,14 @@ export default function CreatePost({ user }: CreatePostProps) {
   return (
     <>
       <h1 className={styles.title}>Create a New Post</h1>
-      
-      {error && (
-        <div className={styles.error}>{error}</div>
-      )}
-      
+
+      {error && <div className={styles.error}>{error}</div>}
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="title" className={styles.label}>Title</label>
+          <label htmlFor="title" className={styles.label}>
+            Title
+          </label>
           <input
             id="title"
             type="text"
@@ -112,9 +118,11 @@ export default function CreatePost({ user }: CreatePostProps) {
             placeholder="Enter post title"
           />
         </div>
-        
+
         <div className={styles.formGroup}>
-          <label htmlFor="content" className={styles.label}>Content</label>
+          <label htmlFor="content" className={styles.label}>
+            Content
+          </label>
           <textarea
             id="content"
             value={content}
@@ -125,11 +133,11 @@ export default function CreatePost({ user }: CreatePostProps) {
             rows={10}
           />
         </div>
-        
+
         <div className={styles.formGroup}>
           <label className={styles.label}>Categories</label>
           <div className={styles.checkboxList}>
-            {categories.map(category => (
+            {categories.map((category) => (
               <div key={category.id} className={styles.checkboxItem}>
                 <input
                   type="checkbox"
@@ -138,7 +146,9 @@ export default function CreatePost({ user }: CreatePostProps) {
                   onChange={() => handleCategoryChange(category.id)}
                   className={styles.checkbox}
                 />
-                <label htmlFor={`category-${category.id}`}>{category.name}</label>
+                <label htmlFor={`category-${category.id}`}>
+                  {category.name}
+                </label>
               </div>
             ))}
             {categories.length === 0 && (
@@ -146,11 +156,11 @@ export default function CreatePost({ user }: CreatePostProps) {
             )}
           </div>
         </div>
-        
+
         <div className={styles.formGroup}>
           <label className={styles.label}>Tags</label>
           <div className={styles.checkboxList}>
-            {tags.map(tag => (
+            {tags.map((tag) => (
               <div key={tag.id} className={styles.checkboxItem}>
                 <input
                   type="checkbox"
@@ -167,9 +177,9 @@ export default function CreatePost({ user }: CreatePostProps) {
             )}
           </div>
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className={styles.submitButton}
           disabled={isSubmitting}
         >

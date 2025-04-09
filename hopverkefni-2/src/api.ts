@@ -87,11 +87,9 @@ export class PostsApi extends Api {
     return await this.fetchFromApi<Post>(url);
   }
 
-  async createPost(postData: PostToCreate): Promise<{ post: Post } | null> {
-    const token = localStorage.getItem('token');
-    
+  async createPost(postData: PostToCreate, token: string): Promise<{ post: Post } | null> {
     if (!token) {
-      console.error('No authentication token found');
+      console.error('No authentication token provided');
       return null;
     }
     
