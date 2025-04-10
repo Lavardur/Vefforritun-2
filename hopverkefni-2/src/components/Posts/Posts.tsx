@@ -17,11 +17,11 @@ export default async function Posts({
   page = 1 
 }: PostsProps) {
   const api = new PostsApi();
-  const result = await api.getPosts(10, page);
+  const result = await api.getPosts(12, page);
   
   // Filter results if needed
   let filteredPosts = result?.data || [];
-  const totalPages = result?.pagination ? Math.ceil(result.pagination.total / 10) : 1;
+  const totalPages = result?.pagination ? result.pagination.totalPages : 1;
   
   if (categoryId) {
     filteredPosts = filteredPosts.filter(post => post.categoryIds?.includes(categoryId));

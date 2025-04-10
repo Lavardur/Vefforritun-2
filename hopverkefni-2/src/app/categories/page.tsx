@@ -1,12 +1,23 @@
-import React from 'react';
-import { Metadata } from 'next';
 import Categories from '@/components/Categories/Categories';
+import styles from './page.module.css';
+import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Categories',
-  description: 'Browse all categories'
-};
-
-export default function CategoriesPage() {
-  return <Categories />;
+export default async function CategoriesPage(  
+  props: { 
+    searchParams: Promise<{ page?: string; }> 
+  }
+) {
+  const searchParams = await props.searchParams;
+  // Safe type conversion without direct property access
+  const pageParam = searchParams ? searchParams.page : undefined;
+  const pageNum = pageParam ? parseInt(pageParam, 10) : 1;
+  return (
+    <div className={styles.postsPage}>
+      <div className={styles.container}>
+        <Suspense fallback={<div>Loading posts...</div>}>
+          <Categories page={pageNum} />
+        </Suspense>
+      </div>
+    </div>
+  );
 }
