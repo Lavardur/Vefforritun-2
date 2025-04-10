@@ -13,7 +13,7 @@ export default async function Categories({
   const api = new CategoriesApi();
   const result = await api.getCategories(12, page);
 
-  let categories = result?.data || [];
+  const categories = result?.data || [];
   const totalPages = result?.pagination ? result.pagination.totalPages : 1;
   
   const hasData = result?.data && result.data.length > 0;

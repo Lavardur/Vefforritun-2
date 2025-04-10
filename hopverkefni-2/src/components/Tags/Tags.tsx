@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { TagsApi } from "@/api";
 import styles from "./Tags.module.css";
 import ClientPaginationWrapper from "../Common/ClientPaginationWrapper";
