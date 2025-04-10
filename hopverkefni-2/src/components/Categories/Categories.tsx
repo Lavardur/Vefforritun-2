@@ -1,13 +1,22 @@
 import Link from "next/link";
 import { CategoriesApi } from "@/api";
 import styles from "./Categories.module.css";
+import ClientPaginationWrapper from "../Common/ClientPaginationWrapper";
 
-export default async function Categories() {
+interface CategoryProps {
+  page?: number;
+}
+
+export default async function Categories({ page = 1 }: CategoryProps) {
   const api = new CategoriesApi();
-  const result = await api.getCategories();
+  const limit = 12; // Number of categories per page
+  const result = await api.getCategories(limit, page);
   
   const hasData = result?.data && result.data.length > 0;
   const categories = result?.data || [];
+  
+  // Calculate total pages from pagination data
+  const totalPages = result?.pagination ? Math.ceil(result.pagination.total / limit) : 1;
   
   return (
     <main className={styles.main}>
@@ -23,17 +32,30 @@ export default async function Categories() {
         )}
 
         {hasData && (
-          <div className={styles.categoriesGrid}>
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/categories/${category.id}`}
-                className={styles.categoryCard}
-              >
-                <h2 className={styles.categoryTitle}>{category.name}</h2>
-              </Link>
-            ))}
-          </div>
+          <>
+            <div className={styles.categoriesGrid}>
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/categories/${category.id}`}
+                  className={styles.categoryCard}
+                >
+                  <h2 className={styles.categoryTitle}>{category.name}</h2>
+                </Link>
+              ))}
+            </div>
+            
+            {/* Only show pagination if there's more than one page */}
+            {totalPages > 1 && (
+              <div className={styles.paginationContainer}>
+                <ClientPaginationWrapper 
+                  currentPage={page} 
+                  totalPages={totalPages} 
+                  basePath="/categories"
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>

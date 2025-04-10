@@ -118,8 +118,9 @@ export class PostsApi extends Api {
 }
 
 export class CategoriesApi extends Api {
-  async getCategories(): Promise<Paginated<Category> | null> {
-    const url = `${BASE_URL}/categories`;
+  async getCategories(limit = 10, page = 1): Promise<Paginated<Category> | null> {
+    const offset = (page - 1) * limit;
+    const url = `${BASE_URL}/categories?limit=${limit}&offset=${offset}`;
     
     try {
       const response = await fetch(url, {
@@ -160,8 +161,9 @@ export class CategoriesApi extends Api {
 }
 
 export class TagsApi extends Api {
-  async getTags(): Promise<Paginated<Tag> | null> {
-    const url = `${BASE_URL}/tags`;
+  async getTags(limit = 10, page = 1): Promise<Paginated<Tag> | null> {
+    const offset = (page - 1) * limit;
+    const url = `${BASE_URL}/tags?limit=${limit}&offset=${offset}`;
     
     try {
       const response = await fetch(url, {

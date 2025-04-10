@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   description: 'Browse all categories'
 };
 
-export default function CategoriesPage() {
-  return <Categories />;
+interface CategoriesPageProps {
+  searchParams: { page?: string };
+}
+
+export default function CategoriesPage({ searchParams }: CategoriesPageProps) {
+  // Extract page number from URL query parameters, default to 1
+  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
+  
+  return <Categories page={page} />;
 }
