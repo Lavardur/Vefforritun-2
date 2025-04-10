@@ -1,22 +1,26 @@
-import Link from "next/link";
 import { CategoriesApi } from "@/api";
 import styles from "./Categories.module.css";
 import ClientPaginationWrapper from "../Common/ClientPaginationWrapper";
+import CategoryCard from "./CategoryCard";
 
 interface CategoryProps {
   page?: number;
 }
 
-export default async function Categories({ page = 1 }: CategoryProps) {
+export default async function Categories({
+   page = 1 
+  }: CategoryProps) {
   const api = new CategoriesApi();
-  const limit = 12; // Number of categories per page
-  const result = await api.getCategories(limit, page);
+  const result = await api.getCategories(12, page);
+
+  let categories = result?.data || [];
+  const totalPages = result?.pagination ? result.pagination.totalPages : 1;
   
   const hasData = result?.data && result.data.length > 0;
-  const categories = result?.data || [];
+
   
   // Calculate total pages from pagination data
-  const totalPages = result?.pagination ? Math.ceil(result.pagination.total / limit) : 1;
+
   
   return (
     <main className={styles.main}>
@@ -35,13 +39,7 @@ export default async function Categories({ page = 1 }: CategoryProps) {
           <>
             <div className={styles.categoriesGrid}>
               {categories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/categories/${category.id}`}
-                  className={styles.categoryCard}
-                >
-                  <h2 className={styles.categoryTitle}>{category.name}</h2>
-                </Link>
+                <CategoryCard key={category.id} category={category} />
               ))}
             </div>
             

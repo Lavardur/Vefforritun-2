@@ -9,13 +9,14 @@ export const metadata: Metadata = {
 };
 
 interface TagsPageProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
-export default function TagsPage({ searchParams }: TagsPageProps) {
+export default async function TagsPage(props: TagsPageProps) {
+  const searchParams = await props.searchParams;
   // Extract page number from URL query parameters, default to 1
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  
+
   return (
     <div className={styles.postsPage}>
       <div className={styles.container}>

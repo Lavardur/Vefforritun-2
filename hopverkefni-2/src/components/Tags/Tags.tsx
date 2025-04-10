@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TagsApi } from "@/api";
 import styles from "./Tags.module.css";
 import ClientPaginationWrapper from "../Common/ClientPaginationWrapper";
+import TagCard from "./TagCard";
 
 interface TagsProps {
   page?: number;
@@ -33,13 +34,7 @@ export default async function Tags({ page = 1 }: TagsProps) {
           <>
             <div className={styles.tagsCloud}>
               {tags.map(tag => (
-                <Link 
-                  key={tag.id} 
-                  href={`/tags/${tag.id}`} 
-                  className={styles.tagBubble}
-                >
-                  #{tag.name}
-                </Link>
+                <TagCard key={tag.id} tag={tag} />
               ))}
             </div>
             

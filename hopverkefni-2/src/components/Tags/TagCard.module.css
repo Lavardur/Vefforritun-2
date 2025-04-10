@@ -1,0 +1,28 @@
+.tagCard {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: white;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+  border: 1px solid #f1f1f1;
+}
+
+.tagCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background-color: #3498db;
+}
+
+.tagCard:hover .tagName {
+  color: white;
+}
+
+.tagName {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+  transition: color 0.3s ease;
+}
