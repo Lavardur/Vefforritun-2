@@ -8,6 +8,10 @@ Verkefnið er hýst á eftirfarandi slóð:
 
 [https://vefforritun-2-mn9h.onrender.com/](https://vefforritun-2-mn9h.onrender.com/)
 
+Notandi
+- username: admin
+- password: Pass123!
+
 ## Uppsetning
 
 1. **Afritaðu repoið:**
