@@ -119,7 +119,6 @@ export class PostsApi extends Api {
 
 export class CategoriesApi extends Api {
   async getCategories(limit: number = 10, page: number = 1): Promise<Paginated<Category> | null> {
-    const offset = (page - 1) * limit;
     const url = `${BASE_URL}/categories?limit=${limit}&page=${page}`;
     
     try {
